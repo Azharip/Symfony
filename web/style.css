@@ -1,12 +1,12 @@
 #descdiv{
     display : inline-block;
-    width : 49.5%;
+    width : 49%;
     text-align: justify;
     padding: 5px;
 }
 
 #regdiv{
     display : inline-block;
-    width : 49.5%;
+    width : 49%;
     padding: 5px;
 }

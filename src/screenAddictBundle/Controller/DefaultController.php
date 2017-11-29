@@ -21,19 +21,26 @@ class DefaultController extends Controller
     {
         $user = new User();
 
-        $form = $this->createFormBuilder($user)
+        $regForm = $this->createFormBuilder($user)
+            ->add('username',   TextType::class,array('label'=>'Pseudo'))
+            ->add('password',   PasswordType::class,array('label'=>'Mot de passe'))
+            ->add('name',       TextType::class,array('label'=>'Nom'))
+            ->add('fname',      TextType::class,array('label'=>'Prénom'))
+            ->add('mail',       EmailType::class,array('label'=>'Email'))
+            ->add('bdate',      BirthdayType::class,array('label'=>'Date de naissance'))
+            ->add('Valider',    SubmitType::class)
+            ->getForm()
+        ;
+
+        $logForm = $this->createFormBuilder($user)
             ->add('username',   TextType::class)
             ->add('password',   PasswordType::class)
-            ->add('name',       TextType::class)
-            ->add('fname',      TextType::class)
-            ->add('mail',       EmailType::class)
-            ->add('bdate',      BirthdayType::class)
-            ->add('save',       SubmitType::class)
+            ->add('Valider',       SubmitType::class)
             ->getForm()
         ;
 
         return $this->render('screenAddictBundle:Default:index.html.twig',
-            ['form' => $form->createView()]
+            ['regForm' => $regForm->createView(),'logForm' => $logForm->createView()]
         );
     }
 }
