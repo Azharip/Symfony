@@ -1,1 +1,43 @@
-Hello World!
+{% extends "screenAddictBundle::layout.html.twig" %}
+
+
+{% block title %}{{ parent() }} - Accueil{% endblock %}
+
+
+{% block body %}
+    <div>
+        <h2>screenAddict</h2>
+    </div>
+
+    <div id="descdiv">
+        <h1>BONJOUR</h1>
+        <p>
+            Bienvenue sur notre réseau social dédié aux séries.
+            Nous espérons que vous partagerez ce site pour que nous nous fassions un sacré paquet de pognon.
+            Nous envisageons d'intégrer des loot box lors de la prochaine maj &num;moremoney.
+            Avec cet argent, nous irons aux Bahamas pendant que vous serez sur notre site nul qui permet de voir quelles séries vous avez regardé.
+            Vous pourrez aussi avoir des amis mais vous en avez pas donc c'est une fonctionnalité inutile qu'on va bacler.
+        </p>
+        <p>
+            Bienvenue sur notre réseau social dédié aux séries.
+            Nous espérons que vous partagerez ce site pour que nous nous fassions un sacré paquet de pognon.
+            Nous envisageons d'intégrer des loot box lors de la prochaine maj &num;moremoney.
+            Avec cet argent, nous irons aux Bahamas pendant que vous serez sur notre site nul qui permet de voir quelles séries vous avez regardé.
+            Vous pourrez aussi avoir des amis mais vous en avez pas donc c'est une fonctionnalité inutile qu'on va bacler.
+        </p>
+        <p>
+            Bienvenue sur notre réseau social dédié aux séries.
+            Nous espérons que vous partagerez ce site pour que nous nous fassions un sacré paquet de pognon.
+            Nous envisageons d'intégrer des loot box lors de la prochaine maj &num;moremoney.
+            Avec cet argent, nous irons aux Bahamas pendant que vous serez sur notre site nul qui permet de voir quelles séries vous avez regardé.
+            Vous pourrez aussi avoir des amis mais vous en avez pas donc c'est une fonctionnalité inutile qu'on va bacler.
+        </p>
+    </div>
+
+    <div id="regdiv">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

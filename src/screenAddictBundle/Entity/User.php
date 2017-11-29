@@ -4,6 +4,8 @@ namespace screenAddictBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use screenAddictBundle\Entity\Message;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -18,10 +20,6 @@ class User
      * @ORM\OneToMany(targetEntity="Message", mappedBy="user")
      */
     private $messages;
-
-    public function __construct() {
-        $this->messages = new ArrayCollection();
-    }
 
     /**
      * @var int
@@ -68,7 +66,7 @@ class User
     private $mail;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
      * @ORM\Column(name="bdate", type="date")
      */
@@ -101,6 +99,18 @@ class User
      * @ORM\Column(name="movies", type="array")
      */
     private $movies;
+
+    public function __construct() {
+        $this->messages = new ArrayCollection();
+        $this->username = "";
+        $this->password = "";
+        $this->name = "";
+        $this->fname = "";
+        $this->mail = "";
+        $this->bdate = new \Date();
+        $this->movies = new ArrayCollection();
+        $this->series = new ArrayCollection();
+    }
 
 
     /**

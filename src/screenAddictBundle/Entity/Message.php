@@ -13,7 +13,7 @@ use screenAddictBundle\Entity\User;
  */
 class Message
 {
-    
+
     /**
      * Many Messages have One User.
      * @ORM\ManyToOne(targetEntity="User", inversedBy="messages")
@@ -51,6 +51,10 @@ class Message
      */
     private $datePost;
 
+    public function __construct() {
+        $this->content = "";
+        $this->datePost = new \DateTime();
+    }
 
     /**
      * Get id
