@@ -32,8 +32,8 @@ class DefaultController extends Controller
             ->getForm()
         ;
 
-        return $this->render('screenAddictBundle:Default:index.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return $this->render('screenAddictBundle:Default:index.html.twig',
+            ['form' => $form->createView()]
+        );
     }
 }

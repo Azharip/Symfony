@@ -5,7 +5,7 @@ namespace screenAddictBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use screenAddictBundle\Entity\Message;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * User
@@ -66,7 +66,7 @@ class User
     private $mail;
 
     /**
-     * @var \Date
+     * @var Date
      *
      * @ORM\Column(name="bdate", type="date")
      */
@@ -107,7 +107,6 @@ class User
         $this->name = "";
         $this->fname = "";
         $this->mail = "";
-        $this->bdate = new \Date();
         $this->movies = new ArrayCollection();
         $this->series = new ArrayCollection();
     }
