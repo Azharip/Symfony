@@ -13,6 +13,7 @@ use screenAddictBundle\Entity\User;
  */
 class Message
 {
+    
     /**
      * Many Messages have One User.
      * @ORM\ManyToOne(targetEntity="User", inversedBy="messages")
