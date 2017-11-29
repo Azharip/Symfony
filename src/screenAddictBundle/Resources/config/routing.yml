@@ -1,0 +1,3 @@
+screen_addict_homepage:
+    path:     /
+    defaults: { _controller: screenAddictBundle:Default:index }
