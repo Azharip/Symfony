@@ -3,8 +3,13 @@
 security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+        screenAddictBundle\Entity\User: plaintext
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
+        main:
+            entity:
+                class:    screenAddictBundle:User
+                property: username
         in_memory:
             memory:
                 users:
@@ -20,9 +25,10 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main-log:
-            pattern:      /
+        main:
+            pattern:      ^/
             anonymous:    true
+            provider: main
             form_login:
                 login_path: screen_addict_homepage
                 check_path: login_check

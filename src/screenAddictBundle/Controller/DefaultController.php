@@ -38,6 +38,8 @@ class DefaultController extends Controller
         $regForm->handleRequest($request);
         if ($regForm->isSubmitted() && $regForm->isValid())
         {
+            $user->setSalt('');
+            $user->setRoles(array('ROLE_USER'));
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
