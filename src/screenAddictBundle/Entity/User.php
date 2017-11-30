@@ -6,12 +6,18 @@ use Doctrine\ORM\Mapping as ORM;
 use screenAddictBundle\Entity\Message;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
  *
- * @ORM\Table(name="User")
+ * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="screenAddictBundle\Repository\userRepository")
+ * @UniqueEntity(
+ * fields={"mail", "username"},
+ * errorPath="username",
+ * message="Quelqu'un d'autre utilise déjà cet email/nom d'utilisateur"
+ *)
  */
 class User
 {
@@ -33,40 +39,40 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=30, unique=true)
+     * @ORM\Column(name="username", type="string", length=32, unique=true)
      */
     private $username;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=30)
+     * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=64)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="fname", type="string", length=30)
+     * @ORM\Column(name="fname", type="string", length=64)
      */
     private $fname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mail", type="string", length=255)
+     * @ORM\Column(name="mail", type="string", length=255, unique=true)
      */
     private $mail;
 
     /**
-     * @var Date
+     * @var \DateTime
      *
      * @ORM\Column(name="bdate", type="date")
      */
@@ -75,35 +81,36 @@ class User
     /**
      * @var array
      *
-     * @ORM\Column(name="friends", type="array")
+     * @ORM\Column(name="friends", type="array", nullable=true)
      */
     private $friends;
 
     /**
      * @var array
      *
-     * @ORM\Column(name="series", type="array")
+     * @ORM\Column(name="movies", type="array", nullable=true)
      */
-    private $series;
+    private $movies;
 
     /**
      * @var array
      *
-     * @ORM\Column(name="movies", type="array")
+     * @ORM\Column(name="series", type="array", nullable=true)
      */
-    private $movies;
+    private $series;
 
-    public function __construct() {
-        $this->messages = new ArrayCollection();
+
+    public function __construct()
+    {
         $this->username = "";
         $this->password = "";
         $this->name = "";
         $this->fname = "";
         $this->mail = "";
+        $this->friends = new ArrayCollection();
         $this->movies = new ArrayCollection();
         $this->series = new ArrayCollection();
     }
-
 
     /**
      * Get id
@@ -120,7 +127,7 @@ class User
      *
      * @param string $username
      *
-     * @return user
+     * @return User
      */
     public function setUsername($username)
     {
@@ -144,7 +151,7 @@ class User
      *
      * @param string $password
      *
-     * @return user
+     * @return User
      */
     public function setPassword($password)
     {
@@ -168,7 +175,7 @@ class User
      *
      * @param string $name
      *
-     * @return user
+     * @return User
      */
     public function setName($name)
     {
@@ -192,7 +199,7 @@ class User
      *
      * @param string $fname
      *
-     * @return user
+     * @return User
      */
     public function setFname($fname)
     {
@@ -216,7 +223,7 @@ class User
      *
      * @param string $mail
      *
-     * @return user
+     * @return User
      */
     public function setMail($mail)
     {
@@ -240,7 +247,7 @@ class User
      *
      * @param \DateTime $bdate
      *
-     * @return user
+     * @return User
      */
     public function setBdate($bdate)
     {
@@ -264,7 +271,7 @@ class User
      *
      * @param array $friends
      *
-     * @return user
+     * @return User
      */
     public function setFriends($friends)
     {
@@ -284,51 +291,27 @@ class User
     }
 
     /**
-     * Set games
+     * Set messages
      *
-     * @param array $games
+     * @param array $messages
      *
-     * @return user
+     * @return User
      */
-    public function setGames($games)
+    public function setMessages($messages)
     {
-        $this->games = $games;
+        $this->messages = $messages;
 
         return $this;
     }
 
     /**
-     * Get games
+     * Get messages
      *
      * @return array
      */
-    public function getGames()
+    public function getMessages()
     {
-        return $this->games;
-    }
-
-    /**
-     * Set series
-     *
-     * @param array $series
-     *
-     * @return user
-     */
-    public function setSeries($series)
-    {
-        $this->series = $series;
-
-        return $this;
-    }
-
-    /**
-     * Get series
-     *
-     * @return array
-     */
-    public function getSeries()
-    {
-        return $this->series;
+        return $this->messages;
     }
 
     /**
@@ -336,7 +319,7 @@ class User
      *
      * @param array $movies
      *
-     * @return user
+     * @return User
      */
     public function setMovies($movies)
     {
@@ -353,5 +336,29 @@ class User
     public function getMovies()
     {
         return $this->movies;
+    }
+
+    /**
+     * Set series
+     *
+     * @param array $series
+     *
+     * @return User
+     */
+    public function setSeries($series)
+    {
+        $this->series = $series;
+
+        return $this;
+    }
+
+    /**
+     * Get series
+     *
+     * @return array
+     */
+    public function getSeries()
+    {
+        return $this->series;
     }
 }
