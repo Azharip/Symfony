@@ -10,3 +10,14 @@
     width : 49%;
     padding: 5px;
 }
+
+#enteteg{
+    display : inline-block;
+    width : 80%;
+    text-align: justify;
+}
+
+#enteted{
+    display : inline-block;
+    width : 19%;
+}

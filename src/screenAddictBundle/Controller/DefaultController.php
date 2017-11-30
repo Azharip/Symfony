@@ -41,18 +41,25 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            return $this->redirectToRoute('screen_addict_homepage');
+            return $this->redirectToRoute('login');
         }
 
-        /*$logForm = $this->createFormBuilder($user)
-            ->add('username',   TextType::class)
-            ->add('password',   PasswordType::class)
-            ->add('Valider',       SubmitType::class)
-            ->getForm()
-        ;*/
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirectToRoute('login');
+        }
+
+        $authenticationUtils = $this->get('security.authentication_utils');
 
         return $this->render('screenAddictBundle:Default:index.html.twig',
-    ['regForm' => $regForm->createView()/*,'logForm' => $logForm->createView()*/]
+            ['regForm' => $regForm->createView(),
+            'last_username' => $authenticationUtils->getLastUsername(),
+            'error'         => $authenticationUtils->getLastAuthenticationError()]
         );
     }
+
+    public function loginAction()
+    {
+        return $this->render('screenAddictBundle:Default:pageprincipale.html.twig');
+    }
+
 }
