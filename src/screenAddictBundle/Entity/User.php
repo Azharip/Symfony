@@ -82,13 +82,6 @@ class User
     /**
      * @var array
      *
-     * @ORM\Column(name="games", type="array")
-     */
-    private $games;
-
-    /**
-     * @var array
-     *
      * @ORM\Column(name="series", type="array")
      */
     private $series;

@@ -13,12 +13,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        //$userRepository = $em->getRepository('screenAddictBundle:User');
+
         $user = new User();
 
         $regForm = $this->createFormBuilder($user)
@@ -32,15 +35,24 @@ class DefaultController extends Controller
             ->getForm()
         ;
 
-        $logForm = $this->createFormBuilder($user)
+        $regForm->handleRequest($request);
+        if ($regForm->isSubmitted() && $regForm->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            return $this->redirectToRoute('screen_addict_homepage');
+        }
+
+        /*$logForm = $this->createFormBuilder($user)
             ->add('username',   TextType::class)
             ->add('password',   PasswordType::class)
             ->add('Valider',       SubmitType::class)
             ->getForm()
-        ;
+        ;*/
 
         return $this->render('screenAddictBundle:Default:index.html.twig',
-            ['regForm' => $regForm->createView(),'logForm' => $logForm->createView()]
+    ['regForm' => $regForm->createView()/*,'logForm' => $logForm->createView()*/]
         );
     }
 }
