@@ -64,10 +64,9 @@ class DefaultController extends Controller
 
     public function loginAction(Request $request)
     {
-		$defaultData = array('message' => 'Type your message here');
+		$defaultData = array('message' => 'Entrez votre message');
 		$form = $this->createFormBuilder($defaultData)
-			->add('message', TextType::class)
-            ->add('Valider',    SubmitType::class)
+			->add('message', TextType::class, array('label' => false))
 			->getForm();
 
 		$form->handleRequest($request);
