@@ -1,1 +1,10 @@
-Bonjour {{ app.user.username }}
+{% extends "screenAddictBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Page principale{% endblock %}
+
+
+{% block body %}
+
+	{{ form(mesform)}}
+
+{% endblock %}

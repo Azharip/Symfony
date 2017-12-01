@@ -3,6 +3,7 @@
 namespace screenAddictBundle\Controller;
 
 use screenAddictBundle\Entity\User;
+use screenAddictBundle\Entity\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -13,7 +14,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
@@ -59,9 +62,36 @@ class DefaultController extends Controller
         );
     }
 
-    public function loginAction()
+    public function loginAction(Request $request)
     {
-        return $this->render('screenAddictBundle:Default:pageprincipale.html.twig');
+		$defaultData = array('message' => 'Type your message here');
+		$form = $this->createFormBuilder($defaultData)
+			->add('message', TextType::class)
+            ->add('Valider',    SubmitType::class)
+			->getForm();
+
+		$form->handleRequest($request);
+		if ($form->isSubmitted() && $form->isValid()) {
+        	$data = $form->getData();
+
+			//set id_author
+			$message = new Message();
+			$user = $this->getUser();
+			$message->setIdAuthor($user->getId());
+
+			//set content
+			$message->setContent($data['message']);
+
+			$em = $this->getDoctrine()->getManager();
+            $em->persist($message);
+
+			$message->setUser($user);
+            $em->flush();
+
+            return $this->redirectToRoute('login');
+	    }
+
+        return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',['mesform'=>$form->createView()]);
     }
 
 }

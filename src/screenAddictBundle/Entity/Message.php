@@ -137,4 +137,20 @@ class Message
     {
         return $this->datePost;
     }
+
+	/**
+	 * @param User $user
+	 */
+	public function setUser(User $user)
+	{
+		$this->user = $user;
+	}
+
+	/**
+	 * @return User $user
+	 */
+	public function getUser()
+	{
+		return $this->user;
+	}
 }

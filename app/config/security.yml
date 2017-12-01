@@ -8,7 +8,7 @@ security:
     providers:
         main:
             entity:
-                class:    screenAddictBundle:User
+                class:    screenAddictBundle\Entity\User
                 property: username
         in_memory:
             memory:
