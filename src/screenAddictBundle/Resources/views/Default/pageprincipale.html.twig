@@ -3,11 +3,6 @@
 {% block title %}{{ parent() }} - Page principale{% endblock %}
 
 {% block body %}
-	<div>
-		<form action="{{ path('logout') }}" method="post">
-			<input type="submit" value="Déconnection" />
-		</form>
-	</div>
 
 	<div>
 		<h1 href="{{ path('home')}}">screenAddict</h1>
@@ -18,14 +13,9 @@
 			{{ knp_menu_render('screenAddictBundle:Builder:menuUser') }}
 		</div>
 	</div>
-	<div>
+
 		<div id="leftbodymain">
 		</div>
-
-	<div>
-		{{ form(mesform)}}
-
-	</div>
 
 		<div id="bodymain">
 			{{ form(mesform)}}
@@ -39,12 +29,13 @@
 
 		<div id="rightbodymain">
 		</div>
+
 	</div>
 
 	<script>
 		var list = document.getElementsByTagName("input");
-		list[1].onclick = function() {clear()};
-		list[1].onfocusout = function() {focusout()};
+		list[0].onclick = function() {clear()};
+		list[0].onfocusout = function() {focusout()};
 
 		var menuRoot = document.getElementById("menuRoot");
 		var menuUser = document.getElementById("menuUser");
@@ -53,12 +44,12 @@
 
 		function clear()
         {
-            list[1].value="";
+            list[0].value="";
         }
 
 		function focusout()
         {
-            list[1].value="Entrez votre message";
+            list[0].value="Entrez votre message";
         }
 
 		function showMenu()

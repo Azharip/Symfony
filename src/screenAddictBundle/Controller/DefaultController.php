@@ -76,8 +76,16 @@ class DefaultController extends Controller
 			$allMessages = array_merge($allMessages,$friend);
 		}
 
+		usort($allMessages, function($a, $b) {
+		  	$ad = new \DateTime($a->getDatePost()->format('Y-m-d H:i:s'));
+		  	$bd = new \DateTime($b->getDatePost()->format('Y-m-d H:i:s'));
 
+		  	if ($ad == $bd) {
+		    	return 0;
+		  	}
 
+		  	return $ad < $bd ? 1 : -1;
+		});
 
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid())
