@@ -317,12 +317,21 @@ class User implements UserInterface
     /**
      * Get messages
      *
-     * @return array
+     * @return ArrayCollection $messages
      */
     public function getMessages()
     {
         return $this->messages;
     }
+
+	/**
+     * @param Message $messages
+     */
+    public function addMessage(Message $message)
+	{
+        $this->messages->add($message);
+    }
+
 
     /**
      * Set movies

@@ -37,6 +37,13 @@ class Message
      */
     private $idAuthor;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="usernameAuthor", type="string", length=32)
+	 */
+	private $usernameAuthor;
+
     /**
      * @var string
      *
@@ -88,6 +95,31 @@ class Message
     public function getIdAuthor()
     {
         return $this->idAuthor;
+    }
+
+	/**
+     * Set usernameAuthor
+     *
+     * @param string $usernameAuthor
+     *
+     * @return message
+     */
+	 
+    public function setUsernameAuthor($usernameAuthor)
+    {
+        $this->usernameAuthor = $usernameAuthor;
+
+        return $this;
+    }
+
+    /**
+     * Get usernameAuthor
+     *
+     * @return string
+     */
+    public function getUsernameAuthor()
+    {
+        return $this->usernameAuthor;
     }
 
     /**

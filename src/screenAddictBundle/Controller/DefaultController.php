@@ -64,19 +64,25 @@ class DefaultController extends Controller
 
     public function loginAction(Request $request)
     {
+
+		$user = $this->getUser();
+
 		$defaultData = array('message' => 'Entrez votre message');
 		$form = $this->createFormBuilder($defaultData)
 			->add('message', TextType::class, array('label' => false))
 			->getForm();
 
 		$form->handleRequest($request);
-		if ($form->isSubmitted() && $form->isValid()) {
+		if ($form->isSubmitted() && $form->isValid())
+		{
         	$data = $form->getData();
 
-			//set id_author
 			$message = new Message();
-			$user = $this->getUser();
+
 			$message->setIdAuthor($user->getId());
+
+			//set username_author
+			$message->setUsernameAuthor($user->getUsername());
 
 			//set content
 			$message->setContent($data['message']);
@@ -90,7 +96,10 @@ class DefaultController extends Controller
             return $this->redirectToRoute('login');
 	    }
 
-        return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',['mesform'=>$form->createView()]);
+        return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',
+			['mesform'=>$form->createView(),
+			'messageList'=>$user->getMessages()
+			]);
     }
 
 }

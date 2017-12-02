@@ -1,0 +1,54 @@
+#descdiv{
+    display : inline-block;
+    width : 49%;
+    text-align: justify;
+    padding: 5px;
+}
+
+#regdiv{
+    display : inline-block;
+    width : 49%;
+    padding: 5px;
+}
+
+#enteteg{
+    display : inline-block;
+    width : 80%;
+    text-align: justify;
+}
+
+#enteted{
+    display : inline-block;
+    width : 19%;
+}
+
+#leftbodymain{
+	display : inline-block;
+	width : 25%;
+}
+
+#bodymain{
+	display : inline-block;
+	width : 50%;
+	padding-top: 2%
+}
+
+#rightbodymain{
+	display : inline-block;
+	width : 24%;
+}
+
+#bodymain input{
+	height:70px;
+	font-size: 150%;
+	margin-bottom: 60px;
+}
+
+#posts{
+	background-color: #E6E6E6;
+	margin: 10px;
+}
+
+#posts p{
+	font-size: 130%;
+}

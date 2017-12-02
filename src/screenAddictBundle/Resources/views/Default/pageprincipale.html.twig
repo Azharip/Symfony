@@ -4,25 +4,43 @@
 
 
 {% block body %}
+	<div>
+		<form action="{{ path('logout') }}" method="post">
+			<input type="submit" value="Déconnection" />
+		</form>
+	</div>
 
-	{{ form(mesform)}}
+	<div>
+		<div id="leftbodymain">
+		</div>
 
-	<form action="{{ path('logout') }}" method="post">
-		<input type="submit" value="Déconnection" />
-	</form>
+		<div id="bodymain">
+			{{ form(mesform)}}
+			{% for message in messageList %}
+				<div id="posts">
+					<p>{{message.content}}</p>
+					par : {{message.usernameAuthor}} le {{message.datePost|date("d/m/Y")}}
+				</div>
+			{% endfor %}
+		</div>
+
+		<div id="rightbodymain">
+		</div>
+	</div>
+
 	<script>
 		var list = document.getElementsByTagName("input");
-		list[0].onclick = function() {clear()};
-		list[0].onfocusout = function() {focusout()};
+		list[1].onclick = function() {clear()};
+		list[1].onfocusout = function() {focusout()};
 
 		function clear()
         {
-            list[0].value="";
+            list[1].value="";
         }
 
 		function focusout()
         {
-            list[0].value="Entrez votre message";
+            list[1].value="Entrez votre message";
         }
 
 	</script>
