@@ -2,7 +2,6 @@
 
 {% block title %}{{ parent() }} - Page principale{% endblock %}
 
-
 {% block body %}
 	<div>
 		<form action="{{ path('logout') }}" method="post">
@@ -11,8 +10,22 @@
 	</div>
 
 	<div>
+		<h1 href="{{ path('home')}}">screenAddict</h1>
+		<p id="menuRoot">
+			{{ app.user.username }}
+		</p>
+		<div id="menuUser">
+			{{ knp_menu_render('screenAddictBundle:Builder:menuUser') }}
+		</div>
+	</div>
+	<div>
 		<div id="leftbodymain">
 		</div>
+
+	<div>
+		{{ form(mesform)}}
+
+	</div>
 
 		<div id="bodymain">
 			{{ form(mesform)}}
@@ -33,6 +46,11 @@
 		list[1].onclick = function() {clear()};
 		list[1].onfocusout = function() {focusout()};
 
+		var menuRoot = document.getElementById("menuRoot");
+		var menuUser = document.getElementById("menuUser");
+		var isMenuUserDeployed = false;
+		menuRoot.onmousedown = function() {showMenu()};
+
 		function clear()
         {
             list[1].value="";
@@ -43,5 +61,17 @@
             list[1].value="Entrez votre message";
         }
 
+		function showMenu()
+		{
+			if(!isMenuUserDeployed){
+				menuUser.style.visibility = "visible"
+				isMenuUserDeployed = true;
+			}
+			else {
+				menuUser.style.visibility = "hidden"
+				isMenuUserDeployed = false;
+			}
+		}
 	</script>
+
 {% endblock %}
