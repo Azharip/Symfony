@@ -72,10 +72,21 @@ class DefaultController extends Controller
 			->add('message', TextType::class, array('label' => false))
 			->getForm();
 
+		$allMessages = $user->getMessages()->toArray();
+
+		for($i = 0; $i < count($user->getFriends()); $i++)
+		{
+			$friend = $this->getDoctrine()->getManager()->getRepository('screenAddictBundle:User')->find($user->getFriends()[$i]->getId())->getMessages()->toArray();
+			$allMessages = array_merge($allMessages,$friend);
+		}
+
+
+
+
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid())
 		{
-        	$data = $form->getData();
+			$data = $form->getData();
 
 			$message = new Message();
 
@@ -98,7 +109,7 @@ class DefaultController extends Controller
 
         return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',
 			['mesform'=>$form->createView(),
-			'messageList'=>$user->getMessages()
+			'messageList'=> $allMessages
 			]);
     }
 

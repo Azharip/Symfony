@@ -84,7 +84,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="friends", type="array", nullable=true)
      */
-    private $friends;
+    private $friends = array();
 
     /**
      * @var array
@@ -117,9 +117,6 @@ class User implements UserInterface
         $this->name = "";
         $this->fname = "";
         $this->mail = "";
-        $this->friends = new ArrayCollection();
-        $this->movies = new ArrayCollection();
-        $this->series = new ArrayCollection();
     }
 
     /**
