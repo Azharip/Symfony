@@ -11,13 +11,13 @@
 
         <div id = "enteted">
             <form action="{{ path('login_check') }}" method="post">
-              <label for="username">Login :</label>
+              <label for="username" class="labelLogin">Login :</label>
               <input type="text" id="username" name="_username" value="{{ last_username }}" />
 			  <br />
-              <label for="password">Mot de passe :</label>
+              <label for="password" class="labelLogin">Mot de passe :</label>
               <input type="password" id="password" name="_password" />
               <br />
-              <input type="submit" value="Connexion" />
+              <input type="submit" value="Connexion" id="buttonLogin" />
             </form>
 
             {% if error %}

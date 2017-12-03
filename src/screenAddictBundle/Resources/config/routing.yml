@@ -2,10 +2,6 @@ screen_addict_homepage:
     path:     /
     defaults: { _controller: screenAddictBundle:Default:index }
 
-login:
-    path: /login
-    defaults: { _controller: screenAddictBundle:Default:login }
-
 login_check:
     path: /login_check
 

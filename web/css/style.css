@@ -1,6 +1,7 @@
 #descdiv{
     display : inline-block;
     width : 49%;
+	vertical-align: top;
     text-align: justify;
     padding: 5px;
 }
@@ -8,22 +9,47 @@
 #regdiv{
     display : inline-block;
     width : 49%;
+	vertical-align: top;
     padding: 5px;
 }
 
 #enteteg{
     display : inline-block;
     width : 80%;
+	vertical-align: top;
     text-align: justify;
 }
 
 #enteted{
     display : inline-block;
     width : 19%;
+	vertical-align: top;
+}
+
+#username{
+	width : 45%;
+}
+
+#password{
+	width : 45%;
+}
+
+.labelLogin{
+	display : inline-block;
+    width : 45%;
+	margin-right: 20px;
+	vertical-align: top;
+	text-align: right;
+}
+
+#buttonLogin{
+	margin-left:66%;
+	width : 30%;
 }
 
 #leftbodymain{
 	display : inline-block;
+	vertical-align: top;
 	width : 25%;
 }
 

@@ -6,15 +6,15 @@
 
 	<div>
 		<h1 href="{{ path('home')}}">screenAddict</h1>
-		<p id="menuRoot">
-			{{ app.user.username }}
-		</p>
-		<div id="menuUser">
-			{{ knp_menu_render('screenAddictBundle:Builder:menuUser') }}
-		</div>
 	</div>
 
 		<div id="leftbodymain">
+			<p id="menuRoot">
+				{{ app.user.username }}
+			</p>
+			<div id="menuUser">
+				{{ knp_menu_render('screenAddictBundle:Builder:menuUser') }}
+			</div>
 		</div>
 
 		<div id="bodymain">
@@ -40,6 +40,7 @@
 		var menuRoot = document.getElementById("menuRoot");
 		var menuUser = document.getElementById("menuUser");
 		var isMenuUserDeployed = false;
+		menuUser.style.visibility = "hidden";
 		menuRoot.onmousedown = function() {showMenu()};
 
 		function clear()

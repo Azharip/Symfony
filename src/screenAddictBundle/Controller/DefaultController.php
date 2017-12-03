@@ -29,7 +29,7 @@ class DefaultController extends Controller
             ->add('name',       TextType::class,array('label'=>'Nom'))
             ->add('fname',      TextType::class,array('label'=>'Prénom'))
             ->add('mail',       EmailType::class,array('label'=>'Email'))
-            ->add('bdate',      BirthdayType::class,array('label'=>'Date de naissance'))
+            ->add('bdate',      BirthdayType::class,array('label'=>'Date de naissance','format' => 'ddMMyyyy'))
             ->add('Valider',    SubmitType::class)
             ->getForm()
         ;
@@ -42,11 +42,11 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('screen_addict_homepage');
         }
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('home');
         }
 
         $authenticationUtils = $this->get('security.authentication_utils');
@@ -108,7 +108,7 @@ class DefaultController extends Controller
 			$message->setUser($user);
             $em->flush();
 
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('home');
 	    }
 
         return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',
