@@ -29,7 +29,7 @@ class DefaultController extends Controller
             ->add('name',       TextType::class,array('label'=>'Nom'))
             ->add('fname',      TextType::class,array('label'=>'Prénom'))
             ->add('mail',       EmailType::class,array('label'=>'Email'))
-            ->add('bdate',      BirthdayType::class,array('label'=>'Date de naissance','format' => 'ddMMyyyy'))
+            ->add('bdate',      BirthdayType::class,array('label'=>'Date de naissance','format' => 'ddMMMyyyy'))
             ->add('Valider',    SubmitType::class)
             ->getForm()
         ;
@@ -111,10 +111,72 @@ class DefaultController extends Controller
             return $this->redirectToRoute('home');
 	    }
 
+
+
+
+
+
+
+		$defaultDat = array('message' => 'Recherchez un film');
+		$forme = $this->createFormBuilder($defaultDat)
+			->add('recherche', TextType::class, array('label' => false))
+			->getForm();
+
+        //if($request->isXmlHttpRequest())
+		if ($forme->isSubmitted() && $forme->isValid())
+		{
+			$data = $forme->getData();
+			$recherche = $data['recherche'];
+            $url = "https://api.themoviedb.org/3/search/movie?api_key=5cac0300f480fa473ca2b57296132a8f&language=en-US&query=".$recherche."&page=1&include_adult=false";
+            $json_source = file_get_contents($url);
+            $json_data = json_decode($json_source);
+            echo('<pre>');
+            var_dump($json_data);
+            echo('</pre>');
+
+            return $this->redirectToRoute('home');
+	    }
+
+
+
+
+
+
+
+
+
+
         return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',
 			['mesform'=>$form->createView(),
-			'messageList'=> $allMessages
+			'messageList'=> $allMessages,
+			'rech'=>$forme->createView()
 			]);
+    }
+
+    public function rechercherAction(Request $request)
+    {
+        $defaultData = array('message' => 'Recherchez un film');
+		$form = $this->createFormBuilder($defaultData)
+			->add('recherche', TextType::class, array('label' => false))
+			->getForm();
+
+        //if($request->isXmlHttpRequest())
+		if ($form->isSubmitted() && $form->isValid())
+		{
+			$data = $form->getData();
+			$recherche = $data['recherche'];
+            $url = "https://api.themoviedb.org/3/search/movie?api_key=5cac0300f480fa473ca2b57296132a8f&language=en-US&query=".$recherche."&page=1&include_adult=false";
+            $json_source = file_get_contents($url);
+            $json_data = json_decode($json_source);
+            echo('<pre>');
+            var_dump($json_data);
+            echo('</pre>');
+
+            return $this->redirectToRoute('home');
+	    }
+
+		return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',
+			['rech'=>$form->createView()]);
     }
 
 }
