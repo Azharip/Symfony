@@ -8,6 +8,9 @@
 		<h1 href="{{ path('home')}}">screenAddict</h1>
 
 		{{ form(rech) }}
+		<div id="recherche">
+			{% include 'screenAddictBundle:Default:pageprincipale.html.twig' with {'data' : data} %}
+		</div>
 	</div>
 
 		<div id="leftbodymain">
@@ -36,8 +39,10 @@
 
 	<script>
 		var list = document.getElementsByTagName("input");
-		list[0].onclick = function() {clear()};
-		list[0].onfocusout = function() {focusout()};
+		list[0].onclick = function() {clear1()};
+		list[0].onfocusout = function() {focusout1()};
+		list[2].onclick = function() {clear2()};
+		list[2].onfocusout = function() {focusout2()};
 
 		var menuRoot = document.getElementById("menuRoot");
 		var menuUser = document.getElementById("menuUser");
@@ -45,15 +50,25 @@
 		menuUser.style.visibility = "hidden";
 		menuRoot.onmousedown = function() {showMenu()};
 
-		function clear()
-        {
-            list[0].value="";
-        }
+		function clear1()
+		{
+			list[0].value="";
+		}
 
-		function focusout()
-        {
-            list[0].value="Entrez votre message";
-        }
+		function focusout1()
+		{
+			list[0].value="Recherchez un film";
+		}
+
+		function clear2()
+		{
+			list[2].value="";
+		}
+
+		function focusout2()
+		{
+			list[2].value="Entrez votre message";
+		}
 
 		function showMenu()
 		{
@@ -66,6 +81,18 @@
 				isMenuUserDeployed = false;
 			}
 		}
+
+		$("#recherche").submit(function(){
+			$.ajax
+			({
+		        type: "POST",
+		        url: "{{ path('rechercher')}}",
+		        cache: false,
+		        success: function(data){
+		           	$('#recherche').html(data);
+		        }
+			})
+		});
 	</script>
 
 {% endblock %}
