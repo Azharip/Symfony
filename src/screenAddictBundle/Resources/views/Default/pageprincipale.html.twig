@@ -40,6 +40,9 @@
 
 	</div>
 
+	<button class="ajax">click me!</button>
+    <div id="ajax-results">here comes the result</div>
+
 	<script>
 		var form = document.getElementById("res");
 		form.onkeydown = function() {
@@ -91,6 +94,46 @@
 				isMenuUserDeployed = false;
 			}
 		}
+
+		$(document).on('click', 'button.ajax', function(){
+            that = $(this);
+            $.ajax({
+                url:'{{ (path('rechercher')) }}',
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "test1": "prout"
+                },
+                async: true,
+                success: function (data)
+                {
+                    console.log(data)
+                    $('div#ajax-results').html(data.output);
+
+                }
+            });
+            return false;
+
+        });
+
+		/*$('body').submit(function(e){
+			e.preventDefault();
+			var $this = $(this);
+			$.ajax
+			({
+		        type: 'POST',
+		        url: "{{ path('rechercher')}}",
+				data: new FormData( $this[0] )
+			}).done(function(msg){
+				$('#recherche').innerHTML = "";
+				$.each(JSON.parse(msg['data']),function(i,item){
+					var div = document.createElement('div');
+					var text = document.createTextNode("Titre : "+item.title);
+					div.appendChild(text);
+					$('#recherche').appendChild(div);
+				})
+			})
+		});*/
 	</script>
 
 {% endblock %}
