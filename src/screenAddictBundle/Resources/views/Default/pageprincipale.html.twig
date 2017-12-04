@@ -9,7 +9,9 @@
 
 
 		<div id="recherche">
-			{{ form(rech) }}
+			{{ form_start(rech) }}
+			{{ form_widget(rech.recherche, {'id': 'labelres'}) }}
+			{{ form_end(rech) }}
 		</div>
 		<div id="ajax-results"></div>
 	</div>
@@ -24,7 +26,9 @@
 		</div>
 
 		<div id="bodymain">
-			{{ form(mesform)}}
+			{{ form_start(mesform) }}
+			{{ form_widget(mesform.message,{'id': 'labelmes'}) }}
+			{{ form_end(mesform) }}
 			{% for message in messageList %}
 				<div id="posts">
 					<p>{{message.content}}</p>
@@ -39,37 +43,35 @@
 	</div>
 
 	<script>
-		var list = document.getElementsByTagName("input");
-		list[0].onclick = function() {clear1()};
-		//list[0].onfocusout = function() {focusout1()};
-		list[2].onclick = function() {clear2()};
-		list[2].onfocusout = function() {focusout2()};
+		var form = document.getElementById("res");
+
+		var labelres = document.getElementById("labelres");
+		labelres.onclick = function() {clearResearch()};
+
+		function clearResearch()
+		{
+			labelres.value="";
+		}
+
+		var labelmes = document.getElementById("labelmes");
+		labelmes.onclick = function() {clearMessage()};
+		labelmes.onfocusout = function() {focusoutMessage()};
+
+		function clearMessage()
+		{
+			labelmes.value="";
+		}
+
+		function focusoutMessage()
+		{
+			labelmes.value="Entrez votre message";
+		}
 
 		var menuRoot = document.getElementById("menuRoot");
 		var menuUser = document.getElementById("menuUser");
 		var isMenuUserDeployed = false;
 		menuUser.style.visibility = "hidden";
 		menuRoot.onmousedown = function() {showMenu()};
-
-		function clear1()
-		{
-			list[0].value="";
-		}
-
-		function focusout1()
-		{
-			list[0].value="Recherchez un film";
-		}
-
-		function clear2()
-		{
-			list[2].value="";
-		}
-
-		function focusout2()
-		{
-			list[2].value="Entrez votre message";
-		}
 
 		function showMenu()
 		{
@@ -83,21 +85,16 @@
 			}
 		}
 
-		var motcle = $("form_recherche").value;
-
-		$("#form_recherche").keyup(function(){
+		$('#res').keyup(function(){
             $.ajax({
-                url:'{{ (path('rechercher'), {'motcle':motcle}) }}',
+                url:'{{ (path('rechercher')) }}',
                 type: "POST",
                 dataType: "json",
-                data: {"cherche":"test"},
+                data: {'recherche' : $('#labelres').val()},
                 async: true,
                 success: function (data)
                 {
 					parsedData = JSON.parse(data.output);
-					//console.log(parsedData.results.length);
-                    //console.log(parsedData.results);
-					console.log(parsedData.results[0].title);
 					var films = "";
 					for(var i = 0; i < parsedData.results.length; i++)
 					{

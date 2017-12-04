@@ -67,6 +67,8 @@ class DefaultController extends Controller
 		//Formulaire de recherche
 		$researchData = array('recherche' => 'Recherchez un film');
 		$researchForm = $this->createFormBuilder($researchData,['attr' => ['id' => 'res']])
+			->setAction($this->generateUrl('rechercher'))
+            ->setMethod('POST')
 			->add('recherche', TextType::class, array('label' => false))
 			->getForm();
 
@@ -135,9 +137,9 @@ class DefaultController extends Controller
 
     public function rechercherAction(Request $request)
     {
-        if($request->request->get('cherche')){
+        if($request->request->get('recherche')){
             //make something curious, get some unbelieveable data
-            $recherche = "indiana";
+			$recherche = $request->request->get('recherche');
             $url = "https://api.themoviedb.org/3/search/movie?api_key=5cac0300f480fa473ca2b57296132a8f&language=fr-FR&query=".$recherche."&page=1&include_adult=false";
             $json_source = file_get_contents($url);
             $arrData = ['output' => $json_source];

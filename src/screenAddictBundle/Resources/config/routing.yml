@@ -13,6 +13,6 @@ home:
     defaults: { _controller: screenAddictBundle:Default:login }
 
 rechercher:
-    path: /home/rechercher/{motcle}
+    path: /home/rechercher
     defaults: { _controller: screenAddictBundle:Default:rechercher }
     methods: [post]
