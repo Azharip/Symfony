@@ -6,27 +6,25 @@
 
 	<div>
 		<h1 href="{{ path('home')}}">screenAddict</h1>
-		{{ form_start(rech) }}
-		{{ form_widget(rech.recherche, {'id': 'labelres'}) }}
-		{{ form_end(rech) }}
-		<div id="recherche">
 
+
+		<div id="recherche">
+			{{ form(rech) }}
 		</div>
+		<div id="ajax-results"></div>
 	</div>
 
 		<div id="leftbodymain">
-			<p id="menuRoot">
+			<div id="menuRoot">
 				{{ app.user.username }}
-			</p>
+			</div>
 			<div id="menuUser">
 				{{ knp_menu_render('screenAddictBundle:Builder:menuUser') }}
 			</div>
 		</div>
 
 		<div id="bodymain">
-			{{ form_start(mesform) }}
-			{{ form_widget(mesform.message,{'id': 'labelmes'}) }}
-			{{ form_end(mesform) }}
+			{{ form(mesform)}}
 			{% for message in messageList %}
 				<div id="posts">
 					<p>{{message.content}}</p>
@@ -40,48 +38,38 @@
 
 	</div>
 
-	<button class="ajax">click me!</button>
-    <div id="ajax-results">here comes the result</div>
-
 	<script>
-		var form = document.getElementById("res");
-		form.onkeydown = function() {
-			form.submit();
-		}
-
-		var labelres = document.getElementById("labelres");
-		labelres.onclick = function() {clearResearch()};
-		labelres.onfocusout = function() {focusoutResearch()};
-
-		function clearResearch()
-		{
-			labelres.value="";
-		}
-
-		function focusoutResearch()
-		{
-			labelres.value="Recherchez un film";
-		}
-
-		var labelmes = document.getElementById("labelmes");
-		labelmes.onclick = function() {clearMessage()};
-		labelmes.onfocusout = function() {focusoutMessage()};
-
-		function clearMessage()
-		{
-			labelmes.value="";
-		}
-
-		function focusoutMessage()
-		{
-			labelmes.value="Entrez votre message";
-		}
+		var list = document.getElementsByTagName("input");
+		list[0].onclick = function() {clear1()};
+		//list[0].onfocusout = function() {focusout1()};
+		list[2].onclick = function() {clear2()};
+		list[2].onfocusout = function() {focusout2()};
 
 		var menuRoot = document.getElementById("menuRoot");
 		var menuUser = document.getElementById("menuUser");
 		var isMenuUserDeployed = false;
 		menuUser.style.visibility = "hidden";
 		menuRoot.onmousedown = function() {showMenu()};
+
+		function clear1()
+		{
+			list[0].value="";
+		}
+
+		function focusout1()
+		{
+			list[0].value="Recherchez un film";
+		}
+
+		function clear2()
+		{
+			list[2].value="";
+		}
+
+		function focusout2()
+		{
+			list[2].value="Entrez votre message";
+		}
 
 		function showMenu()
 		{
@@ -95,45 +83,34 @@
 			}
 		}
 
-		$(document).on('click', 'button.ajax', function(){
-            that = $(this);
+		var motcle = $("form_recherche").value;
+
+		$("#form_recherche").keyup(function(){
             $.ajax({
-                url:'{{ (path('rechercher')) }}',
+                url:'{{ (path('rechercher'), {'motcle':motcle}) }}',
                 type: "POST",
                 dataType: "json",
-                data: {
-                    "test1": "prout"
-                },
+                data: {"cherche":"test"},
                 async: true,
                 success: function (data)
                 {
-                    console.log(data)
-                    $('div#ajax-results').html(data.output);
+					parsedData = JSON.parse(data.output);
+					//console.log(parsedData.results.length);
+                    //console.log(parsedData.results);
+					console.log(parsedData.results[0].title);
+					var films = "";
+					for(var i = 0; i < parsedData.results.length; i++)
+					{
+						films += parsedData.results[i].title + "\n";
+					}
+					$('div#ajax-results').text(films);
+                    //$('div#ajax-results').html(data.output);
 
                 }
             });
             return false;
 
         });
-
-		/*$('body').submit(function(e){
-			e.preventDefault();
-			var $this = $(this);
-			$.ajax
-			({
-		        type: 'POST',
-		        url: "{{ path('rechercher')}}",
-				data: new FormData( $this[0] )
-			}).done(function(msg){
-				$('#recherche').innerHTML = "";
-				$.each(JSON.parse(msg['data']),function(i,item){
-					var div = document.createElement('div');
-					var text = document.createTextNode("Titre : "+item.title);
-					div.appendChild(text);
-					$('#recherche').appendChild(div);
-				})
-			})
-		});*/
 	</script>
 
 {% endblock %}

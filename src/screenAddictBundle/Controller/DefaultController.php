@@ -65,7 +65,7 @@ class DefaultController extends Controller
 		$user = $this->getUser();
 
 		//Formulaire de recherche
-		$researchData = array('Recherchez un film');
+		$researchData = array('recherche' => 'Recherchez un film');
 		$researchForm = $this->createFormBuilder($researchData,['attr' => ['id' => 'res']])
 			->add('recherche', TextType::class, array('label' => false))
 			->getForm();
@@ -126,7 +126,6 @@ class DefaultController extends Controller
 			}
 		}
 
-
 		return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',
 			['mesform'=>$messageForm->createView(),
 			'messageList'=> $allMessages,
@@ -134,58 +133,17 @@ class DefaultController extends Controller
 			]);
     }
 
-    /*public function rechercherAction(Request $request)
+    public function rechercherAction(Request $request)
     {
-        /*$recherche = "mars";
-        $url = "https://api.themoviedb.org/3/search/movie?api_key=5cac0300f480fa473ca2b57296132a8f&language=en-US&query=".$recherche."&page=1&include_adult=false";
-        $json_source = file_get_contents($url);
-        $json_data = json_decode($json_source);
-        $i = 0;
-        foreach($json_data as $d)
-        {
-            if($i < 10)
-                $results[$i] = $d['results'];
-            $i++;
-        }
-
-        echo("<pre>");
-        var_dump($results);
-        echo("</pre>");*/
-
-        if($request->request->get('test1')){
+        if($request->request->get('cherche')){
             //make something curious, get some unbelieveable data
-
-            $arrData = ['output' => 'atchoum'];
+            $recherche = "indiana";
+            $url = "https://api.themoviedb.org/3/search/movie?api_key=5cac0300f480fa473ca2b57296132a8f&language=fr-FR&query=".$recherche."&page=1&include_adult=false";
+            $json_source = file_get_contents($url);
+            $arrData = ['output' => $json_source];
             return new JsonResponse($arrData);
         }
-
         return $this->render('screenAddictBundle:Default:pageprincipale.html.twig');
-
-        /*if($request->isXmlHttpRequest())
-		{
-			$recherche = '';
-			$recherche = $request->request->get('recherche');
-			if($recherche != '')
-	        {
-				$url = "https://api.themoviedb.org/3/search/movie?api_key=5cac0300f480fa473ca2b57296132a8f&language=en-US&query=".$recherche."&page=1&include_adult=false";
-	            $json_source = file_get_contents($url);
-	            $json_data = json_decode($json_source);
-				$i = 0;
-	            foreach($json_data as $d)
-	            {
-					if($i < 10)
-	                	$results[$i] = $d['results'];
-					$i++;
-	            }
-			}*/
-			/*return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',
-				['data' => $results]);*/
-
-			/*return new JsonResponse(array('data'=>json_encode($results)));
-	    }
-		else {
-			return new Response("Erreur : Ce n'est pas une requête Ajax");
-		}*/
     }
 
 }
