@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
@@ -63,8 +64,15 @@ class DefaultController extends Controller
 
 		$user = $this->getUser();
 
-		$defaultData = array('message' => 'Entrez votre message');
-		$form = $this->createFormBuilder($defaultData)
+		//Formulaire de recherche
+		$researchData = array('Recherchez un film');
+		$researchForm = $this->createFormBuilder($researchData,['attr' => ['id' => 'res']])
+			->add('recherche', TextType::class, array('label' => false))
+			->getForm();
+
+		//Formulaire de messages
+		$messageData = array('message' => 'Entrez votre message');
+		$messageForm = $this->createFormBuilder($messageData)
 			->add('message', TextType::class, array('label' => false))
 			->getForm();
 
@@ -87,48 +95,46 @@ class DefaultController extends Controller
 		  	return $ad < $bd ? 1 : -1;
 		});
 
-    //Formulaire de recherche
-		$defaultDat = array('recherche' => 'Recherchez un film');
-		$forme = $this->createFormBuilder($defaultDat)
-			->setAction($this->generateUrl('rechercher'))
-			->setMethod('POST')
-			->add('recherche', TextType::class, array('label' => false))
-			->getForm();
 
-		$form->handleRequest($request);
-		if ($form->isSubmitted() && $form->isValid())
+		if('POST' === $request->getMethod())
 		{
-			$data = $form->getData();
+			if ($request->request->has('mesform'))
+			{
+				$messageForm->handleRequest($request);
+				if ($messageForm->isSubmitted() && $messageForm->isValid())
+				{
+					$data = $messageForm->getData();
 
-			$message = new Message();
+					$message = new Message();
 
-			$message->setIdAuthor($user->getId());
+					$message->setIdAuthor($user->getId());
 
-			//set username_author
-			$message->setUsernameAuthor($user->getUsername());
+					//set username_author
+					$message->setUsernameAuthor($user->getUsername());
 
-			//set content
-			$message->setContent($data['message']);
+					//set content
+					$message->setContent($data['message']);
 
-			$em = $this->getDoctrine()->getManager();
-            $em->persist($message);
+					$em = $this->getDoctrine()->getManager();
+		            $em->persist($message);
 
-			$message->setUser($user);
-            $em->flush();
+					$message->setUser($user);
+		            $em->flush();
 
-            return $this->redirectToRoute('home');
-	    }
-		$data="";
+		            return $this->redirectToRoute('home');
+			    }
+			}
+		}
+
 
 		return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',
-			['mesform'=>$form->createView(),
+			['mesform'=>$messageForm->createView(),
 			'messageList'=> $allMessages,
-			'rech'=>$forme->createView(),
-			'data'=>$data
+			'rech'=>$researchForm->createView()
 			]);
     }
 
-    public function rechercherAction(Request $request)
+    /*public function rechercherAction(Request $request)
     {
         if($request->isXmlHttpRequest())
 		{
@@ -147,9 +153,12 @@ class DefaultController extends Controller
 					$i++;
 	            }
 			}
-			return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',
-				['data' => $results]);
+
+			return new JsonResponse(array('data'=>json_encode($results)));
 	    }
-    }
+		else {
+			return new Response("Erreur : Ce n'est pas une requête Ajax");
+		}
+    }*/
 
 }

@@ -37,7 +37,7 @@ security:
                 target:     screen_addict_homepage
 
     access_control:
-        - { path: ^/login, role: ROLE_USER }
+        - { path: ^/home, role: ROLE_USER }
 
 
             # activate different ways to authenticate

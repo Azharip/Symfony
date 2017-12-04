@@ -15,3 +15,4 @@ home:
 rechercher:
     path: /home/rechercher
     defaults: { _controller: screenAddictBundle:Default:rechercher }
+    methods: [post]
