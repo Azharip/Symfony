@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
@@ -130,7 +131,16 @@ class DefaultController extends Controller
 
     public function rechercherAction(Request $request)
     {
-        if($request->isXmlHttpRequest())
+
+        if($request->request->get('some_var_name')){
+            //make something curious, get some unbelieveable data
+            $arrData = ['output' => 'here the result which will appear in div'];
+            return new JsonResponse($arrData);
+        }
+
+        return $this->render('screenAddictBundle:Default:pageprincipale.html.twig');
+
+        /*if($request->isXmlHttpRequest())
 		{
 			$recherche = '';
 			$recherche = $request->request->get('recherche');
@@ -146,10 +156,15 @@ class DefaultController extends Controller
 	                	$results[$i] = $d['results'];
 					$i++;
 	            }
-			}
-			return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',
-				['data' => $results]);
+			}*/
+			/*return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',
+				['data' => $results]);*/
+
+			/*return new JsonResponse(array('data'=>json_encode($results)));
 	    }
+		else {
+			return new Response("Erreur : Ce n'est pas une requête Ajax");
+		}*/
     }
 
 }

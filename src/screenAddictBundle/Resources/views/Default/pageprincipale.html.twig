@@ -9,7 +9,7 @@
 
 		{{ form(rech) }}
 		<div id="recherche">
-			{% include 'screenAddictBundle:Default:pageprincipale.html.twig' with {'data' : data} %}
+			{#{% include 'screenAddictBundle:Default:pageprincipale.html.twig' with {'data' : data} %}#}
 		</div>
 	</div>
 
@@ -36,6 +36,9 @@
 		</div>
 
 	</div>
+
+	<button class="ajax">click me!</button>
+    <div id="ajax-results">here comes the result</div>
 
 	<script>
 		var list = document.getElementsByTagName("input");
@@ -82,17 +85,45 @@
 			}
 		}
 
-		$("#recherche").submit(function(){
+		$(document).on('click', 'button.ajax', function(){
+            that = $(this);
+            $.ajax({
+                url:'{{ (path('rechercher')) }}',
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "some_var_name": "some_var_value"
+                },
+                async: true,
+                success: function (data)
+                {
+                    console.log(data)
+                    $('div#ajax-results').html(data.output);
+
+                }
+            });
+            return false;
+
+        });
+
+		/*$('body').submit(function(e){
+			e.preventDefault();
+			var $this = $(this);
 			$.ajax
 			({
-		        type: "POST",
+		        type: 'POST',
 		        url: "{{ path('rechercher')}}",
-		        cache: false,
-		        success: function(data){
-		           	$('#recherche').html(data);
-		        }
+				data: new FormData( $this[0] )
+			}).done(function(msg){
+				$('#recherche').innerHTML = "";
+				$.each(JSON.parse(msg['data']),function(i,item){
+					var div = document.createElement('div');
+					var text = document.createTextNode("Titre : "+item.title);
+					div.appendChild(text);
+					$('#recherche').appendChild(div);
+				})
 			})
-		});
+		});*/
 	</script>
 
 {% endblock %}
