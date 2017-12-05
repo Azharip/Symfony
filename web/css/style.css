@@ -1,5 +1,19 @@
-body{
-    background-color: #0097A7;
+body * {
+    background-color: #455A64;
+}
+
+html {
+    background-color: #455A64;
+}
+
+ul {
+	list-style:none;
+	margin-left:0;
+	padding-left:0;
+}
+
+li{
+	margin-bottom:15px;/* à adapter */
 }
 
 #descdiv{
@@ -58,6 +72,7 @@ body{
 }
 
 .bodymain{
+	background-color: #78909C;
 	display : inline-block;
 	width : 50%;
 	padding-top: 2%
@@ -90,11 +105,11 @@ body{
 
 #searchBar{
 	position:absolute;
-	left:50%;
-	transform: translate(-50%);
+    margin-top: 2px;
+	left:27%;
 	display : inline-block;
 	vertical-align: top;
-	width:50%;
+	width:40%;
 	background-color:#CDCDCD;
 	max-height: 60%;
     overflow: auto;
@@ -146,7 +161,7 @@ body{
 }
 
 .onoffswitch {
-    position: relative; width: 87px;
+    position: relative; width: 80px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 .onoffswitch-checkbox {
@@ -154,34 +169,34 @@ body{
 }
 .onoffswitch-label {
     display: block; overflow: hidden; cursor: pointer;
-    border: 2px solid #999999; border-radius: 20px;
+    border: 2px solid #FFFFFF; border-radius: 30px;
 }
 .onoffswitch-inner {
     display: block; width: 200%; margin-left: -100%;
     transition: margin 0.3s ease-in 0s;
 }
 .onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block; float: left; width: 50%; height: 22px; padding: 0; line-height: 22px;
+    display: block; float: left; width: 50%; height: 20px; padding: 0; line-height: 20px;
     font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
     box-sizing: border-box;
 }
 .onoffswitch-inner:before {
-    content: "AMIS";
+    content: "Amis";
     padding-left: 10px;
-    background-color: #34A7C1; color: #FFFFFF;
+    background-color: #CFD8DC; color: #9317D6;
 }
 .onoffswitch-inner:after {
-    content: "FILMS";
+    content: "Films";
     padding-right: 10px;
-    background-color: #34A7C1; color: #FFFFFF;
+    background-color: #CFD8DC; color: #9317D6;
     text-align: right;
 }
 .onoffswitch-switch {
-    display: block; width: 22px; margin: 0px;
-    background: #FFFFFF;
+    display: block; width: 30px; margin: -5px;
+    background: #9317D6;
     position: absolute; top: 0; bottom: 0;
-    right: 61px;
-    border: 2px solid #999999; border-radius: 20px;
+    right: 56px;
+    border: 2px solid #FFFFFF; border-radius: 30px;
     transition: all 0.3s ease-in 0s;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {

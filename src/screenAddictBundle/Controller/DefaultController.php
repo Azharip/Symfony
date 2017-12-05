@@ -251,4 +251,37 @@ class DefaultController extends Controller
 		]);
 	}
 
+    public function ajoutAmiAction($id_film)
+	{
+		$user = $this->getUser();
+
+		$user_movies = $user->getMovies();
+		$isin = false;
+		for($i = 0; $i < count($user_movies); $i++)
+			if($user_movies[$i] == $id_film)
+				$isin = true;
+
+		if(!$isin)
+		{
+			$em = $this->getDoctrine()->getManager();
+			if(!is_array($user_movies))
+				$user_movies = $user_movies->toArray();
+			$movies = array_merge($user_movies,array($id_film));
+			$user->setMovies($movies);
+			$em->flush();
+		}
+
+		$url = "https://api.themoviedb.org/3/movie/".$id_film."?api_key=5cac0300f480fa473ca2b57296132a8f&language=fr-FR";
+		$film_details = file_get_contents($url);
+
+		$url = "https://api.themoviedb.org/3/movie/".$id_film."/credits?api_key=5cac0300f480fa473ca2b57296132a8f";
+		$film_crew = file_get_contents($url);
+
+		return $this->render('screenAddictBundle:Default:film.html.twig',
+		['id_film'=>$id_film,
+		'film_details'=>$film_details,
+		'film_crew'=>$film_crew
+		]);
+	}
+
 }
