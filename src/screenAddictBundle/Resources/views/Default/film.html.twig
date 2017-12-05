@@ -31,6 +31,12 @@
 		btn.setAttribute("type","submit");
 		btn.setAttribute("value","Ajouter film");
 
+		var form = document.createElement("form");
+		form.setAttribute("id","buttonAjout");
+		form.setAttribute("action","{{path('ajoutFilm',{'id_film': id_film})}}");
+
+		form.appendChild(btn);
+
 		var divparent = document.createElement('div');
 		var divimage = document.createElement('div');
 		var divinfo = document.createElement('div');
@@ -101,7 +107,7 @@
 		divinfo.appendChild(pactors);
 		divinfo.appendChild(pgenre);
 		divinfo.appendChild(staro);
-		divinfo.appendChild(btn);
+		divinfo.appendChild(form);
 
 		divdesc.appendChild(pdesc);
 

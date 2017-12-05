@@ -196,6 +196,8 @@ class DefaultController extends Controller
 		if(!$isin)
 		{
 			$em = $this->getDoctrine()->getManager();
+			if(!is_array($user_movies))
+				$user_movies = $user_movies->toArray();
 			$movies = array_merge($user_movies,array($id_film));
 			$user->setMovies($movies);
 			$em->flush();
