@@ -159,7 +159,12 @@ class DefaultController extends Controller
 			$recherche = $request->request->get('recherche');
             $user = $repository->findOneByUsername($recherche);
 			$encoders = array(new XmlEncoder(), new JsonEncoder());
-			$normalizers = array(new ObjectNormalizer());
+			$normalizer = new ObjectNormalizer();
+			$normalizer->setCircularReferenceLimit(2);
+			$normalizer->setCircularReferenceHandler(function ($object) {
+			    return $object->getId();
+			});
+			$normalizers = array($normalizer);
 			$serializer = new Serializer($normalizers, $encoders);
 
 			$jsonContent = $serializer->serialize($user, 'json');
