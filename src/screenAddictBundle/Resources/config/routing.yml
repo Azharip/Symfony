@@ -20,3 +20,7 @@ rechercher:
 film:
     path: /home/film/{id_film}
     defaults: { _controller: screenAddictBundle:Default:film }
+
+ajoutFilm:
+    path: /home/film/ajout/{id_film}
+    defaults: { _controller: screenAddictBundle:Default:ajoutFilm }

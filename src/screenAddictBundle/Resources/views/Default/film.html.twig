@@ -11,6 +11,8 @@
 
 	<div>
 		<div class="leftbodymain">
+			<form id="buttonAjout" action="{{path('ajoutFilm',{'id_film': id_film})}}">
+			</form>
 		</div>
 
 		<div class="bodymain">
@@ -27,10 +29,24 @@
 		var film_crew = {{film_crew|raw}};
 		var t = document.getElementById("infos");
 
+		var btn = document.createElement("input");
+		btn.setAttribute("type","submit");
+		btn.setAttribute("value","Ajouter film");
+
 		var divparent = document.createElement('div');
 		var divimage = document.createElement('div');
 		var divinfo = document.createElement('div');
 		var divdesc = document.createElement('div');
+
+		var staro = document.createElement('div');
+		staro.setAttribute("class","stars-outer");
+		var stari = document.createElement('div');
+		stari.setAttribute("class","stars-inner");
+
+		staro.appendChild(stari);
+
+		notec = film_details.vote_average * 10;
+		stari.style.width = notec+"%";
 
 		divimage.setAttribute("id","filmdivimage");
 		divinfo.setAttribute("id","filmdivinfo");
@@ -44,7 +60,7 @@
 		var pdesc = document.createElement('h4');
 
 		var image = document.createElement('IMG');
-		image.setAttribute("src","http://image.tmdb.org/t/p/w342"+film_details.poster_path)
+		image.setAttribute("src","http://image.tmdb.org/t/p/w185"+film_details.poster_path)
 
 		var titre = document.createTextNode('Titre: '+film_details.title);
 		var date = document.createTextNode('Date de sortie: '+film_details.release_date);
@@ -56,6 +72,7 @@
 			act += film_crew.cast[i].name + "(" + film_crew.cast[i].character + ")"
 			if(i!=2)
 				act+=",";
+			else act += ",...";
 		}
 
 		var actors = document.createTextNode(act);
@@ -85,6 +102,8 @@
 		divinfo.appendChild(preal);
 		divinfo.appendChild(pactors);
 		divinfo.appendChild(pgenre);
+		divinfo.appendChild(staro);
+		divinfo.appendChild(btn);
 
 		divdesc.appendChild(pdesc);
 
