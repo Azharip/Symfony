@@ -13,6 +13,12 @@
   <body>
 
     {% block body %}
+		{% block top %}
+			<div id="enteteg">
+				<a href="{{ path('home')}}">screenAddict</a>
+			</div>
+		{% endblock %}
+
     {% endblock %}
 
   </body>

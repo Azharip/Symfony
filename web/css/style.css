@@ -47,24 +47,24 @@
 	width : 30%;
 }
 
-#leftbodymain{
+.leftbodymain{
 	display : inline-block;
 	vertical-align: top;
 	width : 25%;
 }
 
-#bodymain{
+.bodymain{
 	display : inline-block;
 	width : 50%;
 	padding-top: 2%
 }
 
-#rightbodymain{
+.rightbodymain{
 	display : inline-block;
 	width : 24%;
 }
 
-#bodymain input{
+.bodymain input{
 	height:70px;
 	font-size: 150%;
 	margin-bottom: 60px;
@@ -77,4 +77,50 @@
 
 #posts p{
 	font-size: 130%;
+}
+
+#enteteg a{
+	color:black;
+	font-size: 200%;
+}
+
+#searchBar{
+	position:absolute;
+	left:50%;
+	transform: translate(-50%);
+	display : inline-block;
+	vertical-align: top;
+	width:50%;
+	background-color:#CDCDCD;
+	max-height: 60%;
+    overflow: auto;
+}
+
+#ajax-results{
+}
+
+#iddivimage{
+	display : inline-block;
+	vertical-align: top;
+}
+
+#iddivinfo{
+	display : inline-block;
+	vertical-align: top;
+	width: 90%;
+}
+
+#filmdivimage{
+	display : inline-block;
+	vertical-align: top;
+}
+
+#filmdivinfo{
+	display : inline-block;
+	vertical-align: top;
+	width: 60%;
+}
+
+#filmdivdesc{
+
 }

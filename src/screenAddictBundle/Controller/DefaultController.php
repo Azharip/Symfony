@@ -69,7 +69,7 @@ class DefaultController extends Controller
 		$researchForm = $this->createFormBuilder($researchData,['attr' => ['id' => 'res']])
 			->setAction($this->generateUrl('rechercher'))
             ->setMethod('POST')
-			->add('recherche', TextType::class, array('label' => false))
+			->add('recherche', TextType::class, array('label' => false,'attr' => ['autocomplete' => 'off']))
 			->getForm();
 
 		//Formulaire de messages
@@ -98,34 +98,32 @@ class DefaultController extends Controller
 		});
 
 
-		if('POST' === $request->getMethod())
+		if($request->isMethod('POST'))
 		{
-			if ($request->request->has('mesform'))
+			$messageForm->handleRequest($request);
+			if ($messageForm->isSubmitted() && $messageForm->isValid())
 			{
-				$messageForm->handleRequest($request);
-				if ($messageForm->isSubmitted() && $messageForm->isValid())
-				{
-					$data = $messageForm->getData();
 
-					$message = new Message();
+				$data = $messageForm->getData();
 
-					$message->setIdAuthor($user->getId());
+				$message = new Message();
 
-					//set username_author
-					$message->setUsernameAuthor($user->getUsername());
+				$message->setIdAuthor($user->getId());
 
-					//set content
-					$message->setContent($data['message']);
+				//set username_author
+				$message->setUsernameAuthor($user->getUsername());
 
-					$em = $this->getDoctrine()->getManager();
-		            $em->persist($message);
+				//set content
+				$message->setContent($data['message']);
 
-					$message->setUser($user);
-		            $em->flush();
+				$em = $this->getDoctrine()->getManager();
+	            $em->persist($message);
 
-		            return $this->redirectToRoute('home');
-			    }
-			}
+				$message->setUser($user);
+	            $em->flush();
+
+	            return $this->redirectToRoute('home');
+		    }
 		}
 
 		return $this->render('screenAddictBundle:Default:pageprincipale.html.twig',
@@ -140,6 +138,7 @@ class DefaultController extends Controller
         if($request->request->get('recherche')){
             //make something curious, get some unbelieveable data
 			$recherche = $request->request->get('recherche');
+			$recherche = str_replace(" ","%20",$recherche);
             $url = "https://api.themoviedb.org/3/search/movie?api_key=5cac0300f480fa473ca2b57296132a8f&language=fr-FR&query=".$recherche."&page=1&include_adult=false";
             $json_source = file_get_contents($url);
             $arrData = ['output' => $json_source];
@@ -147,5 +146,20 @@ class DefaultController extends Controller
         }
         return $this->render('screenAddictBundle:Default:pageprincipale.html.twig');
     }
+
+	public function filmAction($id_film)
+	{
+		$url = "https://api.themoviedb.org/3/movie/".$id_film."?api_key=5cac0300f480fa473ca2b57296132a8f&language=fr-FR";
+		$film_details = file_get_contents($url);
+
+		$url = "https://api.themoviedb.org/3/movie/".$id_film."/credits?api_key=5cac0300f480fa473ca2b57296132a8f";
+		$film_crew = file_get_contents($url);
+
+		return $this->render('screenAddictBundle:Default:film.html.twig',
+		['id_film'=>$id_film,
+		'film_details'=>$film_details,
+		'film_crew'=>$film_crew
+		]);
+	}
 
 }

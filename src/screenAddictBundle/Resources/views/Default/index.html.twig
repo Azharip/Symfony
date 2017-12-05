@@ -4,10 +4,10 @@
 
 
 {% block body %}
-    <div>
-        <div id = "enteteg">
-            <h2>screenAddict</h2>
-        </div>
+
+    {% block top %}
+	<div>
+		{{ parent() }}
 
         <div id = "enteted">
             <form action="{{ path('login_check') }}" method="post">
@@ -24,7 +24,9 @@
                 <div class="alert alert-danger">{{ error.message }}</div>
             {% endif %}
         </div>
-    </div>
+	</div>
+
+	{% endblock %}
 
     <div id="descdiv">
         <h1>BONJOUR</h1>

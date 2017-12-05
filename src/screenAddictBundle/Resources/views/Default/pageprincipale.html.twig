@@ -5,18 +5,23 @@
 {% block body %}
 
 	<div>
-		<h1 href="{{ path('home')}}">screenAddict</h1>
 
+		{% block top %}
+		<div>
+			{{ parent() }}
 
-		<div id="recherche">
-			{{ form_start(rech) }}
-			{{ form_widget(rech.recherche, {'id': 'labelres'}) }}
-			{{ form_end(rech) }}
+			<div id="searchBar">
+				<div id="recherche">
+					{{ form_start(rech) }}
+					{{ form_widget(rech.recherche, {'id': 'labelres'}) }}
+					{{ form_end(rech) }}
+				</div>
+				<div id="ajax-results"></div>
+			</div>
 		</div>
-		<div id="ajax-results"></div>
-	</div>
+		{% endblock %}
 
-		<div id="leftbodymain">
+		<div class="leftbodymain">
 			<div id="menuRoot">
 				{{ app.user.username }}
 			</div>
@@ -25,7 +30,7 @@
 			</div>
 		</div>
 
-		<div id="bodymain">
+		<div class="bodymain">
 			{{ form_start(mesform) }}
 			{{ form_widget(mesform.message,{'id': 'labelmes'}) }}
 			{{ form_end(mesform) }}
@@ -37,7 +42,7 @@
 			{% endfor %}
 		</div>
 
-		<div id="rightbodymain">
+		<div class="rightbodymain">
 		</div>
 
 	</div>
@@ -47,10 +52,23 @@
 
 		var labelres = document.getElementById("labelres");
 		labelres.onclick = function() {clearResearch()};
+		labelres.onfocusout = function() {focusoutResearch()};
 
 		function clearResearch()
 		{
-			labelres.value="";
+			if(labelres.value=="Recherchez un film")
+				labelres.value="";
+		}
+
+		function focusoutResearch()
+		{
+			setTimeout(function(){
+				var t = document.getElementById("ajax-results");
+				while (t.firstChild) {
+				    t.removeChild(t.firstChild);
+				}
+			}, 1000);
+
 		}
 
 		var labelmes = document.getElementById("labelmes");
@@ -59,7 +77,8 @@
 
 		function clearMessage()
 		{
-			labelmes.value="";
+			if(labelmes.value="Entrez votre message")
+				labelmes.value="";
 		}
 
 		function focusoutMessage()
@@ -85,7 +104,20 @@
 			}
 		}
 
-		$('#res').keyup(function(){
+		var typingTimer;                //timer identifier
+        var doneTypingInterval = 500;  //time in ms (5 seconds)
+
+        //on keyup, start the countdown
+        $('#labelres').keyup(function(){
+            clearTimeout(typingTimer);
+            if ($('#labelres').val()) {
+                typingTimer = setTimeout(doneTyping, doneTypingInterval);
+                console.log(typingTimer);
+            }
+        });
+
+        //user is "finished typing," do something
+        function doneTyping () {
             $.ajax({
                 url:'{{ (path('rechercher')) }}',
                 type: "POST",
@@ -94,20 +126,60 @@
                 async: true,
                 success: function (data)
                 {
-					parsedData = JSON.parse(data.output);
-					var films = "";
-					for(var i = 0; i < parsedData.results.length; i++)
-					{
-						films += parsedData.results[i].title + "\n";
-					}
-					$('div#ajax-results').text(films);
-                    //$('div#ajax-results').html(data.output);
+                    parsedData = JSON.parse(data.output);
 
+					//vider toutes les div dans #ajax-results
+					var t = document.getElementById("ajax-results");
+					while (t.firstChild) {
+					    t.removeChild(t.firstChild);
+					}
+
+                    for(var i = 0; i < parsedData.results.length; i++)
+                    {
+						var hr = document.createElement('HR');
+
+						var lien = document.createElement('a');
+						var url = '{{path('film',{'id_film': 'idofthefilmtoreplace'})}}';
+						url = url.replace("idofthefilmtoreplace", parsedData.results[i].id);
+						lien.setAttribute("href",url);
+
+						var divparent = document.createElement('div');
+						var divimage = document.createElement('div');
+						var divinfo = document.createElement('div');
+
+						divimage.setAttribute("id","iddivimage");
+						divinfo.setAttribute("id","iddivinfo");
+
+						var ptitre = document.createElement('p');
+						var pdesc = document.createElement('p');
+						var pdate = document.createElement('p');
+
+						var image = document.createElement('IMG');
+						image.setAttribute("src","http://image.tmdb.org/t/p/w92"+parsedData.results[i].poster_path)
+
+						var titre = document.createTextNode('Titre: '+parsedData.results[i].title);
+						var desc = document.createTextNode('Description: '+parsedData.results[i].overview);
+						var date = document.createTextNode('Date de sortie: '+parsedData.results[i].release_date);
+
+						ptitre.appendChild(titre);
+						pdesc.appendChild(desc);
+						pdate.appendChild(date);
+
+						divimage.appendChild(image);
+						divinfo.appendChild(ptitre);
+						divinfo.appendChild(pdesc);
+						divinfo.appendChild(pdate);
+						divparent.appendChild(divimage);
+						divparent.appendChild(divinfo);
+						divparent.appendChild(hr);
+
+						lien.appendChild(divparent);
+
+						t.appendChild(lien);
+                    }
                 }
             });
-            return false;
-
-        });
+        }
 	</script>
 
 {% endblock %}

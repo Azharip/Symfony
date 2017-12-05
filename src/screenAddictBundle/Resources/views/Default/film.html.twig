@@ -1,0 +1,99 @@
+{% extends "screenAddictBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Film {{id_film}}{% endblock %}
+
+
+{% block body %}
+
+    {% block top %}
+		{{ parent() }}
+	{% endblock %}
+
+	<div>
+		<div class="leftbodymain">
+		</div>
+
+		<div class="bodymain">
+			<div id="infos">
+			</div>
+		</div>
+
+		<div class="rightbodymain">
+		</div>
+	</div>
+
+	<script>
+		var film_details = {{film_details|raw}};
+		var film_crew = {{film_crew|raw}};
+		var t = document.getElementById("infos");
+
+		var divparent = document.createElement('div');
+		var divimage = document.createElement('div');
+		var divinfo = document.createElement('div');
+		var divdesc = document.createElement('div');
+
+		divimage.setAttribute("id","filmdivimage");
+		divinfo.setAttribute("id","filmdivinfo");
+		divdesc.setAttribute("id","filmdivdesc");
+
+		var ptitre = document.createElement('h2');
+		var pdate = document.createElement('h4');
+		var preal = document.createElement('h4');
+		var pactors = document.createElement('h4');
+		var pgenre = document.createElement('h4');
+		var pdesc = document.createElement('h4');
+
+		var image = document.createElement('IMG');
+		image.setAttribute("src","http://image.tmdb.org/t/p/w342"+film_details.poster_path)
+
+		var titre = document.createTextNode('Titre: '+film_details.title);
+		var date = document.createTextNode('Date de sortie: '+film_details.release_date);
+		var real = document.createTextNode('Réalisateur: '+film_crew.crew[0].name);
+
+		var act = "Acteurs: ";
+		for(var i = 0; i < 3; i++)
+		{
+			act += film_crew.cast[i].name + "(" + film_crew.cast[i].character + ")"
+			if(i!=2)
+				act+=",";
+		}
+
+		var actors = document.createTextNode(act);
+
+		var gen = "Genre: "
+		for(var i = 0; i < film_details.genres.length; i++)
+		{
+			gen += film_details.genres[i].name;
+			if(i != film_details.genres.length - 1)
+				gen += ",";
+		}
+
+		var genre = document.createTextNode(gen);
+		var desc = document.createTextNode('Description: '+film_details.overview);
+
+		ptitre.appendChild(titre);
+		pdate.appendChild(date);
+		preal.appendChild(real);
+		pactors.appendChild(actors);
+		pgenre.appendChild(genre);
+		pdesc.appendChild(desc);
+
+		divimage.appendChild(image);
+
+		divinfo.appendChild(ptitre);
+		divinfo.appendChild(pdate);
+		divinfo.appendChild(preal);
+		divinfo.appendChild(pactors);
+		divinfo.appendChild(pgenre);
+
+		divdesc.appendChild(pdesc);
+
+		divparent.appendChild(divimage);
+		divparent.appendChild(divinfo);
+		divparent.appendChild(divdesc);
+
+		t.appendChild(divparent);
+
+	</script>
+
+{% endblock %}
