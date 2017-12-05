@@ -147,6 +147,21 @@ class DefaultController extends Controller
         return $this->render('screenAddictBundle:Default:pageprincipale.html.twig');
     }
 
+    public function rechercherAmiAction(Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        if($request->request->get('recherche')){
+            //make something curious, get some unbelieveable data
+			$recherche = $request->request->get('recherche');
+            $ami = explode(" ",$recherche);
+            $amis = $repository->findBy(
+                array('fname' => $ami[0]),
+                array('name' => $ami[1])
+            );
+        }
+        return $this->render('screenAddictBundle:Default:pageprincipale.html.twig');
+    }
+
 	public function filmAction($id_film)
 	{
 		$url = "https://api.themoviedb.org/3/movie/".$id_film."?api_key=5cac0300f480fa473ca2b57296132a8f&language=fr-FR";
