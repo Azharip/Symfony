@@ -14,6 +14,10 @@ use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class DefaultController extends Controller
 {
@@ -149,17 +153,19 @@ class DefaultController extends Controller
 
     public function rechercherAmiAction(Request $request)
     {
-        $repository = $this->getDoctrine()->getRepository(User::class);
+        $repository = $this->getDoctrine()->getRepository('screenAddictBundle:User');
         if($request->request->get('recherche')){
             //make something curious, get some unbelieveable data
 			$recherche = $request->request->get('recherche');
-            $ami = explode(" ",$recherche);
-            $amis = $repository->findBy(
-                array('fname' => $ami[0]),
-                array('name' => $ami[1])
-            );
+            $user = $repository->findOneByUsername($recherche);
+			$encoders = array(new XmlEncoder(), new JsonEncoder());
+			$normalizers = array(new ObjectNormalizer());
+			$serializer = new Serializer($normalizers, $encoders);
+
+			$jsonContent = $serializer->serialize($user, 'json');
+            return new JsonResponse(['output' => $jsonContent]);
         }
-        return $this->render('screenAddictBundle:Default:pageprincipale.html.twig');
+		return $this->render('screenAddictBundle:Default:pageprincipale.html.twig');
     }
 
 	public function filmAction($id_film)
@@ -205,6 +211,36 @@ class DefaultController extends Controller
 		['id_film'=>$id_film,
 		'film_details'=>$film_details,
 		'film_crew'=>$film_crew
+		]);
+	}
+
+    public function amiAction($id_ami)
+	{
+        $repository = $this->getDoctrine()->getRepository('screenAddictBundle:User');
+
+        //make something curious, get some unbelieveable data
+        $user = $repository->find($id_ami);
+
+		$messages = $user->getMessages()->toArray();
+
+		usort($messages, function($a, $b) {
+		  	$ad = new \DateTime($a->getDatePost()->format('Y-m-d H:i:s'));
+		  	$bd = new \DateTime($b->getDatePost()->format('Y-m-d H:i:s'));
+
+		  	if ($ad == $bd) {
+		    	return 0;
+		  	}
+
+		  	return $ad < $bd ? 1 : -1;
+		});
+
+        return $this->render('screenAddictBundle:Default:user.html.twig',
+		['id_ami'=>$id_ami,
+        'username'=>$user->getUsername(),
+        'fname'=>$user->getFname(),
+        'name'=>$user->getName(),
+        'bdate'=>$user->getBdate(),
+		'messages'=>$messages
 		]);
 	}
 

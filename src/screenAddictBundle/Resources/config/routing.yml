@@ -24,3 +24,12 @@ film:
 ajoutFilm:
     path: /home/film/ajout/{id_film}
     defaults: { _controller: screenAddictBundle:Default:ajoutFilm }
+
+rechercherAmi:
+    path: /home/rechercherAmi
+    defaults: { _controller: screenAddictBundle:Default:rechercherAmi }
+    methods: [post]
+
+user:
+    path: /home/user/{id_ami}
+    defaults: { _controller: screenAddictBundle:Default:ami }

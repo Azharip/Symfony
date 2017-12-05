@@ -1,3 +1,7 @@
+body{
+    background-color: #0097A7;
+}
+
 #descdiv{
     display : inline-block;
     width : 49%;
@@ -142,7 +146,7 @@
 }
 
 .onoffswitch {
-    position: relative; width: 55px;
+    position: relative; width: 87px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 .onoffswitch-checkbox {
@@ -150,30 +154,39 @@
 }
 .onoffswitch-label {
     display: block; overflow: hidden; cursor: pointer;
-    height: 20px; padding: 0; line-height: 20px;
-    border: 0px solid #FFFFFF; border-radius: 30px;
-    background-color: #9E9E9E;
+    border: 2px solid #999999; border-radius: 20px;
 }
-.onoffswitch-label:before {
-    content: "";
-    display: block; width: 30px; margin: -5px;
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 22px; padding: 0; line-height: 22px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "AMIS";
+    padding-left: 10px;
+    background-color: #34A7C1; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "FILMS";
+    padding-right: 10px;
+    background-color: #34A7C1; color: #FFFFFF;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 22px; margin: 0px;
     background: #FFFFFF;
     position: absolute; top: 0; bottom: 0;
-    right: 31px;
-    border-radius: 30px;
-    box-shadow: 0 6px 12px 0px #757575;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label {
-    background-color: #42A5F5;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {
-   border-color: #42A5F5;
+    right: 61px;
+    border: 2px solid #999999; border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
     margin-left: 0;
 }
-.onoffswitch-checkbox:checked + .onoffswitch-label:before {
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px;
-    background-color: #2196F3;
-    box-shadow: 3px 6px 18px 0px rgba(0, 0, 0, 0.2);
 }

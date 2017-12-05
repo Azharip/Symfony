@@ -1,0 +1,61 @@
+{% extends "screenAddictBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+
+{% block body %}
+
+    {% block top %}
+		{{ parent() }}
+	{% endblock %}
+
+	<div>
+		<div class="leftbodymain">
+		</div>
+
+		<div class="bodymain">
+			<div id="infosUser">
+			</div>
+			{% for message in messages %}
+				<div id="posts">
+					<p>{{message.content}}</p>
+					par : {{message.usernameAuthor}} le {{message.datePost|date("d/m/Y")}}
+				</div>
+			{% endfor %}
+		</div>
+
+		<div class="rightbodymain">
+		</div>
+	</div>
+
+	<script>
+
+        var id_ami = '{{id_ami|raw}}';
+        var username = '{{username}}';
+        var fname = '{{fname}}';
+        var name = '{{name}}';
+        var bdate = '{{bdate|date("d/m/Y")}}';
+
+        var t = document.getElementById("infosUser");
+        var divinfos = document.createElement('div');
+        var pCompleteName = document.createElement('h2');
+        var pUsername = document.createElement('h4');
+        var pBdate = document.createElement('h4');
+
+        var tcompleteName = document.createTextNode('Nom: '+fname+" "+name);
+		var tusername = document.createTextNode('Nom d\'utilisateur: '+username);
+		var tbdate = document.createTextNode('Date de naissance: '+bdate);
+
+        pCompleteName.appendChild(tcompleteName);
+        pUsername.appendChild(tusername);
+        pBdate.appendChild(tbdate);
+
+        divinfos.appendChild(pCompleteName);
+        divinfos.appendChild(pUsername);
+        divinfos.appendChild(pBdate);
+
+        t.appendChild(divinfos);
+
+	</script>
+
+{% endblock %}

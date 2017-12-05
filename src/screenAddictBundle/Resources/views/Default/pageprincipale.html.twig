@@ -17,12 +17,12 @@
 					{{ form_end(rech) }}
 				</div>
 				<div class="onoffswitch">
-					<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-					<label class="onoffswitch-label" for="myonoffswitch"></label>
+				    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+				    <label class="onoffswitch-label" for="myonoffswitch">
+				        <span class="onoffswitch-inner"></span>
+				        <span class="onoffswitch-switch"></span>
+				    </label>
 				</div>
-				<p>
-					Amis
-				</p>
 
 				<div id="ajax-results"></div>
 			</div>
@@ -191,7 +191,54 @@
 			}
 			else
 			{//si on recherche un ami
-				
+				$.ajax({
+	                url:'{{ (path('rechercherAmi')) }}',
+	                type: "POST",
+					dataType: "json",
+	                data: {'recherche' : $('#labelres').val()},
+	                async: true,
+	                success: function (data)
+	                {
+						parsedData = JSON.parse(data.output);
+
+						//vider toutes les div dans #ajax-results
+						var t = document.getElementById("ajax-results");
+						while (t.firstChild) {
+						    t.removeChild(t.firstChild);
+						}
+
+						var hr = document.createElement('HR');
+
+						var lien = document.createElement('a');
+						var url = '{{path('user',{'id_ami': 'idofthefriendtoreplace'})}}';
+						url = url.replace("idofthefriendtoreplace", parsedData.id);
+						lien.setAttribute("href",url);
+
+						var divinfo = document.createElement('div');
+
+						var pusername = document.createElement('p');
+						var pfname = document.createElement('p');
+						var pname = document.createElement('p');
+
+						var username = document.createTextNode('Nom d\'utilisateur: '+parsedData.username);
+						var fname = document.createTextNode('Prenom: '+parsedData.fname);
+						var name = document.createTextNode('Nom: '+parsedData.name);
+
+						pusername.appendChild(username);
+						pfname.appendChild(fname);
+						pname.appendChild(name);
+
+						divinfo.appendChild(pusername);
+						divinfo.appendChild(pfname);
+						divinfo.appendChild(pname);
+						divinfo.appendChild(hr);
+
+						lien.appendChild(divinfo);
+
+						t.appendChild(lien);
+
+	                }
+	            });
 			}
         }
 	</script>
