@@ -309,4 +309,8 @@ class DefaultController extends Controller
 		]);
 	}
 
+    public function accountAction(){
+        return $this->render('screenAddictBundle:Default:account.html.twig');
+    }
+
 }

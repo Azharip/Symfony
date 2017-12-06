@@ -37,3 +37,7 @@ user:
 ajoutAmi:
     path: /home/user/ajout/{id_ami}
     defaults: { _controller: screenAddictBundle:Default:ajoutAmi }
+
+account:
+    path: /home/account
+    defaults: { _controller: screenAddictBundle:Default:account }
