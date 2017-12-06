@@ -36,6 +36,16 @@
         var name = '{{name}}';
         var bdate = '{{bdate|date("d/m/Y")}}';
 
+        var btn = document.createElement("input");
+		btn.setAttribute("type","submit");
+		btn.setAttribute("value","Ajouter ami");
+
+		var form = document.createElement("form");
+		form.setAttribute("id","buttonAjoutAmi");
+		form.setAttribute("action","{{path('ajoutAmi',{'id_ami': id_ami})}}");
+
+		form.appendChild(btn);
+
         var t = document.getElementById("infosUser");
         var divinfos = document.createElement('div');
         var pCompleteName = document.createElement('h2');
@@ -53,6 +63,7 @@
         divinfos.appendChild(pCompleteName);
         divinfos.appendChild(pUsername);
         divinfos.appendChild(pBdate);
+        divinfos.appendChild(form);
 
         t.appendChild(divinfos);
 

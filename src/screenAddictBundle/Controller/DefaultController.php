@@ -18,6 +18,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DefaultController extends Controller
 {
@@ -42,6 +43,9 @@ class DefaultController extends Controller
         $regForm->handleRequest($request);
         if ($regForm->isSubmitted() && $regForm->isValid())
         {
+            $passwordEncoder = $this->get('security.password_encoder');
+            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
             $user->setSalt('');
             $user->setRoles(array('ROLE_USER'));
             $em = $this->getDoctrine()->getManager();
@@ -247,6 +251,60 @@ class DefaultController extends Controller
         'fname'=>$user->getFname(),
         'name'=>$user->getName(),
         'bdate'=>$user->getBdate(),
+		'messages'=>$messages
+		]);
+	}
+
+    public function ajoutAmiAction($id_ami)
+	{
+		$user = $this->getUser();
+
+		$user_friends = $user->getFriends();
+		$isin = false;
+		for($i = 0; $i < count($user_friends); $i++)
+			if($user_friends[$i]->getId() == $id_ami)
+				$isin = true;
+
+        $em = $this->getDoctrine()->getManager();
+        if(!is_array($user_friends))
+            $user_friends = $user_friends->toArray();
+        $me = $em->getRepository('screenAddictBundle:User')->find($id_ami);
+
+        $me_friends = $me->getFriends();
+        if(!is_array($me_friends))
+            $me_friends = $me_friends->toArray();
+
+
+		if(!$isin)
+		{
+            $friends = array_merge($user_friends,array($me));
+            $user->setFriends($friends);
+
+            $me_friends = array_merge($me_friends,array($user));
+            $me->setFriends($me_friends);
+
+            $em->flush();
+		}
+
+        $messages = $me->getMessages()->toArray();
+
+		usort($messages, function($a, $b) {
+		  	$ad = new \DateTime($a->getDatePost()->format('Y-m-d H:i:s'));
+		  	$bd = new \DateTime($b->getDatePost()->format('Y-m-d H:i:s'));
+
+		  	if ($ad == $bd) {
+		    	return 0;
+		  	}
+
+		  	return $ad < $bd ? 1 : -1;
+		});
+
+        return $this->render('screenAddictBundle:Default:user.html.twig',
+		['id_ami'=>$id_ami,
+        'username'=>$me->getUsername(),
+        'fname'=>$me->getFname(),
+        'name'=>$me->getName(),
+        'bdate'=>$me->getBdate(),
 		'messages'=>$messages
 		]);
 	}

@@ -3,7 +3,9 @@
 security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
-        screenAddictBundle\Entity\User: plaintext
+        screenAddictBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 12
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
         main:

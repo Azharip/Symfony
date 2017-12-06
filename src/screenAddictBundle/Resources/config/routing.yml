@@ -33,3 +33,7 @@ rechercherAmi:
 user:
     path: /home/user/{id_ami}
     defaults: { _controller: screenAddictBundle:Default:ami }
+
+ajoutAmi:
+    path: /home/user/ajout/{id_ami}
+    defaults: { _controller: screenAddictBundle:Default:ajoutAmi }
