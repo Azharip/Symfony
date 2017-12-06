@@ -117,6 +117,8 @@ class User implements UserInterface
         $this->name = "";
         $this->fname = "";
         $this->mail = "";
+        $this->friends = new ArrayCollection();
+        $this->movies = new ArrayCollection();
     }
 
     /**
