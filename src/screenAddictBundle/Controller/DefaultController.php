@@ -18,6 +18,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DefaultController extends Controller
 {
@@ -42,6 +43,9 @@ class DefaultController extends Controller
         $regForm->handleRequest($request);
         if ($regForm->isSubmitted() && $regForm->isValid())
         {
+            $passwordEncoder = $this->get('security.password_encoder');
+            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
             $user->setSalt('');
             $user->setRoles(array('ROLE_USER'));
             $em = $this->getDoctrine()->getManager();
@@ -200,7 +204,7 @@ class DefaultController extends Controller
 
 		if(!$isin)
 		{
-			$em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
 			if(!is_array($user_movies))
 				$user_movies = $user_movies->toArray();
 			$movies = array_merge($user_movies,array($id_film));
@@ -251,37 +255,62 @@ class DefaultController extends Controller
 		]);
 	}
 
-    public function ajoutAmiAction($id_film)
+    public function ajoutAmiAction($id_ami)
 	{
 		$user = $this->getUser();
 
-		$user_movies = $user->getMovies();
+		$user_friends = $user->getFriends();
 		$isin = false;
-		for($i = 0; $i < count($user_movies); $i++)
-			if($user_movies[$i] == $id_film)
+		for($i = 0; $i < count($user_friends); $i++)
+			if($user_friends[$i]->getId() == $id_ami)
 				$isin = true;
+
+        $em = $this->getDoctrine()->getManager();
+        if(!is_array($user_friends))
+            $user_friends = $user_friends->toArray();
+        $me = $em->getRepository('screenAddictBundle:User')->find($id_ami);
+
+        $me_friends = $me->getFriends();
+        if(!is_array($me_friends))
+            $me_friends = $me_friends->toArray();
+
 
 		if(!$isin)
 		{
-			$em = $this->getDoctrine()->getManager();
-			if(!is_array($user_movies))
-				$user_movies = $user_movies->toArray();
-			$movies = array_merge($user_movies,array($id_film));
-			$user->setMovies($movies);
-			$em->flush();
+            $friends = array_merge($user_friends,array($me));
+            $user->setFriends($friends);
+
+            $me_friends = array_merge($me_friends,array($user));
+            $me->setFriends($me_friends);
+
+            $em->flush();
 		}
 
-		$url = "https://api.themoviedb.org/3/movie/".$id_film."?api_key=5cac0300f480fa473ca2b57296132a8f&language=fr-FR";
-		$film_details = file_get_contents($url);
+        $messages = $me->getMessages()->toArray();
 
-		$url = "https://api.themoviedb.org/3/movie/".$id_film."/credits?api_key=5cac0300f480fa473ca2b57296132a8f";
-		$film_crew = file_get_contents($url);
+		usort($messages, function($a, $b) {
+		  	$ad = new \DateTime($a->getDatePost()->format('Y-m-d H:i:s'));
+		  	$bd = new \DateTime($b->getDatePost()->format('Y-m-d H:i:s'));
 
-		return $this->render('screenAddictBundle:Default:film.html.twig',
-		['id_film'=>$id_film,
-		'film_details'=>$film_details,
-		'film_crew'=>$film_crew
+		  	if ($ad == $bd) {
+		    	return 0;
+		  	}
+
+		  	return $ad < $bd ? 1 : -1;
+		});
+
+        return $this->render('screenAddictBundle:Default:user.html.twig',
+		['id_ami'=>$id_ami,
+        'username'=>$me->getUsername(),
+        'fname'=>$me->getFname(),
+        'name'=>$me->getName(),
+        'bdate'=>$me->getBdate(),
+		'messages'=>$messages
 		]);
 	}
+
+    public function accountAction(){
+        return $this->render('screenAddictBundle:Default:account.html.twig');
+    }
 
 }

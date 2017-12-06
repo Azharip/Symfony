@@ -15,6 +15,8 @@ class Builder implements ContainerAwareInterface
 
         $menu->addChild('Home', array('route' => 'home'));
 
+        $menu->addChild('Account', array('route' => 'account'));
+
         // access services from the container!
         //$em = $this->container->get('doctrine')->getManager();
         // findMostRecent and Blog are just imaginary examples

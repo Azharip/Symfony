@@ -4,3 +4,5 @@ composer require components/jquery
 composer require oyejorge/less.php
 php bin/console assetic:dump
 composer require knplabs/knp-menu-bundle "^2.0"
+composer require symfony/serializer
+composer require symfony/property-access
