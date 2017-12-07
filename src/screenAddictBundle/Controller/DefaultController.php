@@ -230,7 +230,13 @@ class DefaultController extends Controller
         $repository = $this->getDoctrine()->getRepository('screenAddictBundle:User');
 
         //make something curious, get some unbelieveable data
-        $user = $repository->find($id_ami);
+		$user = $this->getUser();
+
+		if($id_ami != $user->getId() && $id_ami != -1)
+        	$user = $repository->find($id_ami);
+
+		if($id_ami == -1)
+			$id_ami = $user->getId();
 
 		$messages = $user->getMessages()->toArray();
 
@@ -247,6 +253,7 @@ class DefaultController extends Controller
 
         return $this->render('screenAddictBundle:Default:user.html.twig',
 		['id_ami'=>$id_ami,
+		'id_user'=>$user->getId(),
         'username'=>$user->getUsername(),
         'fname'=>$user->getFname(),
         'name'=>$user->getName(),

@@ -28,6 +28,18 @@
 			</div>
 			{% endblock %}
 
+			{% block drawer %}
+			<div class="mdl-layout__drawer">
+			  	<span class="mdl-layout-title">Title</span>
+			  	<nav class="mdl-navigation">
+					<a class="mdl-navigation__link" href="">Link</a>
+					<a class="mdl-navigation__link" href="">Link</a>
+					<a class="mdl-navigation__link" href="">Link</a>
+					<a class="mdl-navigation__link" href="">Link</a>
+			  	</nav>
+			</div>
+			{% endblock %}
+
 			<div class="onoffswitch">
 				<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
 				<label class="onoffswitch-label" for="myonoffswitch">
@@ -54,7 +66,9 @@
 			{% for message in messageList %}
 				<style>
 					.demo-card-wide.mdl-card {
-					width: 512px;
+					margin-left: 25%;
+					margin-top:20px;
+					width: 50%;
 					}
 					.demo-card-wide > .mdl-card__title {
 					color: #000;
@@ -71,10 +85,10 @@
 						<h2 class="mdl-card__title-text">{{message.content}}</h2>
 					</div>
 					<div class="mdl-card__supporting-text">
-						de {{message.usernameAuthor}} le {{message.datePost|date("d/m/Y")}}
+						le  {{message.datePost|date("j F \\à g:i", "Europe/Paris")}}
 					</div>
 					<div class="mdl-card__actions mdl-card--border">
-						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{{path('user',{'id_ami': message.idAuthor})}}">
 					  		{{message.usernameAuthor}}
 						</a>
 					</div>
@@ -89,10 +103,10 @@
 
 
 
-				<div id="posts">
+				{#<div id="posts">
 					<p>{{message.content}}</p>
 					par : {{message.usernameAuthor}} le {{message.datePost|date("d/m/Y")}}
-				</div>
+				</div>#}
 			{% endfor %}
 		</div>
 
