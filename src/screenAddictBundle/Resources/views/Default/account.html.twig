@@ -37,12 +37,67 @@
 	</div>
 
 	<div class="bodymain">
+		{{form_start(mailForm)}}
+			<div class="mdl-textfield mdl-js-textfield">
+				{{form_widget(mailForm.mail,{'id':'mail','attr':{'class':'mdl-textfield__input'}} ) }}
+				<label class="mdl-textfield__label" for="mail">Ancien mail</label>
+				<span class="mdl-textfield__error" id="spanerror">{{errormail}}</span>
+			</div>
+			<br />
+			<div class="mdl-textfield mdl-js-textfield">
+				{{form_widget(mailForm.newmail,{'id':'nmail','attr':{'class':'mdl-textfield__input'}} ) }}
+				<label class="mdl-textfield__label" for="nmail">Nouveau mail</label>
+			</div>
+			<br />
+			<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+				Confirmer
+			</button>
+		{{form_end(mailForm)}}
+
+		{{form_start(pwdForm)}}
+			<div class="mdl-textfield mdl-js-textfield">
+				{{form_widget(pwdForm.password,{'id':'pwd','attr':{'class':'mdl-textfield__input'}} ) }}
+				<label class="mdl-textfield__label" for="pwd">Mot de passe</label>
+				<span class="mdl-textfield__error" id="spanerrorpwd">{{errorpwd1}}</span>
+			</div>
+			<br />
+			<div class="mdl-textfield mdl-js-textfield">
+				{{form_widget(pwdForm.newpassword,{'id':'npwd','attr':{'class':'mdl-textfield__input'}} ) }}
+				<label class="mdl-textfield__label" for="npwd">Nouveau mot de passe</label>
+			</div>
+			<br />
+			<div class="mdl-textfield mdl-js-textfield">
+				{{form_widget(pwdForm.newpasswordconfirm,{'id':'ncpwd','attr':{'class':'mdl-textfield__input'}} ) }}
+				<label class="mdl-textfield__label" for="ncpwd">Confirmation mot de passe</label>
+				<span class="mdl-textfield__error" id="spanerrornpwd">{{errorpwd2}}</span>
+			</div>
+			<br />
+			<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+				Confirmer
+			</button>
+		{{form_end(pwdForm)}}
 	</div>
 </div>
 
 <script>
 
+var spanerror = document.getElementById('spanerror');
+if(spanerror.value != "")
+{
+	spanerror.style.visibility = "visible";
+}
 
+var spanerror = document.getElementById('spanerrorpwd');
+if(spanerror.value != "")
+{
+	spanerror.style.visibility = "visible";
+}
+
+var spanerror = document.getElementById('spanerrornpwd');
+if(spanerror.value != "")
+{
+	spanerror.style.visibility = "visible";
+}
 
 </script>
 {% endblock %}

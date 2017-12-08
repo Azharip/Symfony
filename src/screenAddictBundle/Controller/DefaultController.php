@@ -20,6 +20,8 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormFactory;
 
 class DefaultController extends Controller
 {
@@ -47,7 +49,7 @@ class DefaultController extends Controller
             $passwordEncoder = $this->get('security.password_encoder');
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-            $user->setSalt('');
+            $user->setSalt(generateRandomString());
             $user->setRoles(array('ROLE_USER'));
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
@@ -317,8 +319,101 @@ class DefaultController extends Controller
 		]);
 	}
 
-    public function accountAction(){
-        return $this->render('screenAddictBundle:Default:account.html.twig');
+    public function accountAction(Request $request){
+		$changemailForm = $this->get('form.factory')->createNamedBuilder('mailForm')
+			->add('mail', EmailType::class,array('label'=>'Email'))
+			->add('newmail', EmailType::class,array('label'=>'Email'))
+			->getForm();
+
+		$changepwdForm = $this->get('form.factory')->createNamedBuilder('pwdForm')
+			->add('password', PasswordType::class,array('label'=>'Password'))
+			->add('newpassword', PasswordType::class,array('label'=>'New password'))
+			->add('newpasswordconfirm', PasswordType::class,array('label'=>'Confirm new password'))
+			->getForm();
+
+		$errormail = '';		//message d'erreur quand le mail entré ne correspond pas au mail en BD
+		$errorpwd1 = '';		//message d'erreur quand le mot de passe entré ne correspond pas au mot de passe en BD
+		$errorpwd2 = '';		//message d'erreur quand les deux nouveaux mots de passe ne sont pas identiques
+
+		if($request->isMethod('POST'))
+		{
+			if ($request->request->has('mailForm'))
+			{
+				$changemailForm->handleRequest($request);
+		        if ($changemailForm->isSubmitted() && $changemailForm->isValid())
+		        {
+					$mail = $changemailForm->getData();
+					$newmail = $mail['newmail'];
+					$user = $this->getUser();
+					if($mail['mail'] == $user->getMail())
+					{
+						$em = $this->getDoctrine()->getManager();
+						$user->setMail($newmail);
+		    			$em->flush();
+			            return $this->redirectToRoute('account');
+					}
+					else
+					{
+						$errormail = "Cet email ne correspond pas à votre email";
+					}
+		        }
+			}
+
+			if ($request->request->has('pwdForm'))
+			{
+				$changepwdForm->handleRequest($request);
+		        if ($changepwdForm->isSubmitted() && $changepwdForm->isValid())
+		        {
+					$pwd = $changepwdForm->getData();
+					$someuser = new User();
+					$user = $this->getUser();
+					$passwordEncoder = $this->get('security.password_encoder');
+					$validPassword = $passwordEncoder->isPasswordValid(
+					    $user, 					// the encoded password
+					    $pwd['password'],       // the submitted password
+					    $user->getSalt()
+					);
+
+					if($validPassword)
+					{
+						if($pwd['newpassword'] == $pwd['newpasswordconfirm'])
+						{
+							$em = $this->getDoctrine()->getManager();
+							$newcryptedpwd = $passwordEncoder->encodePassword($someuser, $pwd['newpassword']);
+				            $user->setPassword($newcryptedpwd);
+			    			$em->flush();
+							return $this->redirectToRoute('account');
+						}
+						else
+						{
+							$errorpwd2 = 'Veuillez entrer le même mot de passe';
+						}
+					}
+					else
+					{
+						$errorpwd1 = "Ce n'est pas le bon mot de passe";
+					}
+		        }
+		    }
+		}
+
+
+        return $this->render('screenAddictBundle:Default:account.html.twig',
+		['mailForm' => $changemailForm->createView(),
+		'errormail' => $errormail,
+		'pwdForm' => $changepwdForm->createView(),
+		'errorpwd1' => $errorpwd1,
+		'errorpwd2' => $errorpwd2]);
     }
+
+	private function generateRandomString($length = 10) {
+	    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	    $charactersLength = strlen($characters);
+	    $randomString = '';
+	    for ($i = 0; $i < $length; $i++) {
+	        $randomString .= $characters[rand(0, $charactersLength - 1)];
+	    }
+	    return $randomString;
+	}
 
 }

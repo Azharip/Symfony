@@ -68,13 +68,10 @@
 #filmdivinfo{
 	display : inline-block;
 	vertical-align: top;
-	width: 80%;
+	width: 78%;
 }
 
 #infos{
-	position:absolute;
-	left:25%;
-	width:50%;
 }
 
 #infos p{

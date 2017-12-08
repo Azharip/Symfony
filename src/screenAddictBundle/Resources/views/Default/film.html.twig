@@ -36,24 +36,49 @@
 
 {% block body %}
 	<div>
-		<div id="infos">
+		<style>
+		.demo-card-wide.mdl-card {
+		  	width: 50%;
+			position:absolute;
+			left:25%;
+		}
+		.demo-card-wide > .mdl-card__title {
+		  	color: #fff;
+		  	height: 176px;
+		  	background: url('../assets/demos/welcome_card.jpg') center / cover;
+		}
+		.demo-card-wide > .mdl-card__menu {
+		  	color: #fff;
+		}
+		</style>
+		<div class="demo-card-wide mdl-card mdl-shadow--2dp" id="card">
+		  	<div class="mdl-card__supporting-text">
+				<div id="infos">
+				</div>
+		  	</div>
+			<div class="mdl-card__actions mdl-card--border" id="button">
+			</div>
 		</div>
 	</div>
 
 	<script>
 		var film_details = {{film_details|raw}};
 		var film_crew = {{film_crew|raw}};
+
+		var cardheight = 455 + (film_details.overview.length / 136)*25;
+		document.getElementById("card").style.height = cardheight+"px";
+
 		var t = document.getElementById("infos");
+		var button = document.getElementById("button");
 
-		var btn = document.createElement("input");
-		btn.setAttribute("type","submit");
-		btn.setAttribute("value","Ajouter film");
+		var btn = document.createElement("a");
+		btn.setAttribute("href","{{path('ajoutFilm',{'id_film': id_film})}}");
+		btn.setAttribute("class","mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect");
 
-		var form = document.createElement("form");
-		form.setAttribute("id","buttonAjout");
-		form.setAttribute("action","{{path('ajoutFilm',{'id_film': id_film})}}");
+		var btntext = document.createTextNode("Ajouter film");
 
-		form.appendChild(btn);
+		btn.appendChild(btntext);
+		button.appendChild(btn);
 
 		var divparent = document.createElement('div');
 		var divimage = document.createElement('div');
@@ -124,7 +149,6 @@
 		divinfo.appendChild(pactors);
 		divinfo.appendChild(pgenre);
 		divinfo.appendChild(staro);
-		divinfo.appendChild(form);
 
 		divdesc.appendChild(pdesc);
 		divparent.appendChild(ptitre);
@@ -133,6 +157,9 @@
 		divparent.appendChild(divdesc);
 
 		t.appendChild(divparent);
+
+
+
 
 	</script>
 {% endblock %}
