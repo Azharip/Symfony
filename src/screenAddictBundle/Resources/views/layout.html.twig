@@ -1,55 +1,63 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
-    <meta charset="utf-8">
+<head>
+	<meta charset="utf-8">
 	{% block stylesheets %}
-	    {#<link rel="stylesheet" href="{{ asset('css/style.css') }}">#}
-        <link rel="stylesheet" href="{{ asset('css/material.min.css') }}">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-		{#<link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">#}
-	    {#<link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">#}
+	<link rel="stylesheet" href="{{ asset('css/material.min.css') }}">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="{{ asset('css/stylesheet.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+	{#<link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">#}
 	{% endblock %}
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('css/material.min.js') }}"></script>
-    {#<script src="{{ asset('js/bootstrap.js') }}"></script>#}
-    <title>{% block title %}screenAddict{% endblock %}</title>
-  </head>
-  <body>
+	<script src="{{ asset('js/jquery.min.js') }}"></script>
+	<script src="{{ asset('css/material.min.js') }}"></script>
+	{#<script src="{{ asset('js/bootstrap.js') }}"></script>#}
+	<title>{% block title %}screenAddict{% endblock %}</title>
+</head>
+<body>
 
-    {% block body %}
-        {% block top %}
-            {#<div id="enteteg">#}
-                {#<a href="{{ path('home')}}">screenAddict</a>#}
-                <!-- Always shows a header, even in smaller screens. -->
-                <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-                  <header class="mdl-layout__header">
-                    <div class="mdl-layout__header-row">
-                      <!-- Title -->
-                      <span class="mdl-layout-title">ScreenAddict</span>
-                      <!-- Add spacer, to align navigation to the right -->
-                      <div class="mdl-layout-spacer">
 
-						  {% block searchbar %}
-						  {% endblock %}
+	{% block top %}
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+		<header class="mdl-layout__header">
+			<div class="mdl-layout__header-row">
+				<!-- Title -->
+				<span class="mdl-layout-title">ScreenAddict</span>
+				<!-- Add spacer, to align navigation to the right -->
+				<div class="mdl-layout-spacer">
+					{% block searchbar %}
+					{% endblock %}
 
-					  </div>
-                      <!-- Navigation. We hide it in small screens. -->
-                      <nav class="mdl-navigation mdl-layout--large-screen-only">
-                        <a class="mdl-navigation__link" href="{{ path('home')}}">Accueil</a>
-                        <a class="mdl-navigation__link" href="{{ path('user',{'id_ami': -1})}}">Profil</a>
-                        <a class="mdl-navigation__link" href="">Link</a>
-                        <a class="mdl-navigation__link" href="">Link</a>
-                      </nav>
-                    </div>
-                  </header>
-				  {% block drawer %}
-				  {% endblock %}
-                  <main class="mdl-layout__content">
-                    <div class="page-content"><!-- Your content goes here -->{#</div>
-                  </main>
-                </div>
-            </div>#}
-        {% endblock %}
-    {% endblock %}
-  </body>
+				</div>
+				<!-- Navigation. We hide it in small screens. -->
+				<nav class="mdl-navigation mdl-layout--large-screen-only">
+					<a class="mdl-navigation__link" href="{{ path('home')}}">Accueil</a>
+					<a class="mdl-navigation__link" href="{{ path('user',{'id_ami': -1})}}">Profil</a>
+					<a class="mdl-navigation__link" href="">Link</a>
+					<a class="mdl-navigation__link" href="">Link</a>
+				</nav>
+				{% block menu %}
+				<button id="demo-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
+		  			<i class="material-icons">more_vert</i>
+				</button>
+
+				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-right">
+					<a  href="{{path('account')}}"><li class="mdl-menu__item">Compte</li></a>
+					<a  href="{{path('logout')}}"><li class="mdl-menu__item">Se déconnecter</li></a>
+				</ul>
+				{% endblock %}
+			</div>
+		</header>
+		{% block drawer %}
+		{% endblock %}
+
+		<main class="mdl-layout__content">
+			<div class="page-content">
+				{% block body %}
+				{% endblock %}
+			</div>
+		</main>
+	</div>
+	{% endblock %}
+</body>
 </html>

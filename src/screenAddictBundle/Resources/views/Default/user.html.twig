@@ -2,24 +2,69 @@
 
 {% block title %}{{ parent() }}{% endblock %}
 
+{% block top %}
+{{ parent() }}
+{% endblock %}
+
+{% block menu %}
+{{ parent() }}
+{% endblock %}
+
+{% block drawer %}
+<div class="mdl-layout__drawer">
+	<span class="mdl-layout-title">Title</span>
+	<nav class="mdl-navigation">
+		<a class="mdl-navigation__link" href="">Link</a>
+		<a class="mdl-navigation__link" href="">Link</a>
+		<a class="mdl-navigation__link" href="">Link</a>
+		<a class="mdl-navigation__link" href="">Link</a>
+	</nav>
+</div>
+{% endblock %}
 
 {% block body %}
-
-    {% block top %}
-		{{ parent() }}
-	{% endblock %}
-
 	<div>
 		<div class="leftbodymain">
+			<div id="infosUser">
+			</div>
 		</div>
 
 		<div class="bodymain">
-			<div id="infosUser">
-			</div>
+
+			<style>
+				.demo-card-wide.mdl-card {
+				margin-left: 25%;
+				margin-top:20px;
+				width: 50%;
+				}
+				.demo-card-wide > .mdl-card__title {
+				color: #000;
+				height: 176px;
+				background: url('../assets/demos/welcome_card.jpg') center / cover;
+				}
+				.demo-card-wide > .mdl-card__menu {
+				color: #fff;
+				}
+			</style>
+
 			{% for message in messages %}
-				<div id="posts">
-					<p>{{message.content}}</p>
-					par : {{message.usernameAuthor}} le {{message.datePost|date("d/m/Y")}}
+				<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+					<div class="mdl-card__title">
+						<h2 class="mdl-card__title-text">{{message.content}}</h2>
+					</div>
+					<div class="mdl-card__supporting-text">
+						le  {{message.datePost|date("j F \\à g:i", "Europe/Paris")}}
+					</div>
+					<div class="mdl-card__actions mdl-card--border">
+						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{{path('user',{'id_ami': message.idAuthor})}}">
+					  		{{message.usernameAuthor}}
+						</a>
+					</div>
+					<div class="mdl-card__menu">
+						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+					  	<i class="material-icons">share</i>
+					</button>
+					</div>
 				</div>
 			{% endfor %}
 		</div>

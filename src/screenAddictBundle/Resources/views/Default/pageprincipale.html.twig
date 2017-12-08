@@ -2,269 +2,268 @@
 
 {% block title %}{{ parent() }} - Page principale{% endblock %}
 
-{% block body %}
 
-	<div>
-
-		{% block top %}
-		<div>
-			{{ parent() }}
-			{% block searchbar %}
-			<div id="searchBar">
-				<div id="recherche">
-					{{ form_start(rech) }}
-					<!-- Simple Textfield -->
-					  <div class="mdl-textfield mdl-js-textfield">
-						{{ form_widget(rech.recherche, {'id': 'labelres','attr':{'class': 'mdl-textfield__input'}}) }}
-						{{ form_label(rech.recherche, 'Recherche', {'for':'labelres','label_attr': {'class': 'mdl-textfield__label'}}) }}
-					  </div>
-
-					{{ form_end(rech) }}
-
-				</div>
-
-
-				<div id="ajax-results"></div>
-			</div>
-			{% endblock %}
-
-			{% block drawer %}
-			<div class="mdl-layout__drawer">
-			  	<span class="mdl-layout-title">Title</span>
-			  	<nav class="mdl-navigation">
-					<a class="mdl-navigation__link" href="">Link</a>
-					<a class="mdl-navigation__link" href="">Link</a>
-					<a class="mdl-navigation__link" href="">Link</a>
-					<a class="mdl-navigation__link" href="">Link</a>
-			  	</nav>
-			</div>
-			{% endblock %}
-
-			<div class="onoffswitch">
-				<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-				<label class="onoffswitch-label" for="myonoffswitch">
-					<span class="onoffswitch-inner"></span>
-					<span class="onoffswitch-switch"></span>
-				</label>
-			</div>
-		</div>
-		{% endblock %}
-
-		<div class="leftbodymain">
-			<div id="menuRoot">
-				{{ app.user.username }}
-			</div>
-			<div id="menuUser">
-				{{ knp_menu_render('screenAddictBundle:Builder:menuUser') }}
-			</div>
-		</div>
-
-		<div class="bodymain">
-			{{ form_start(mesform) }}
-			{{ form_widget(mesform.message,{'id': 'labelmes'}) }}
-			{{ form_end(mesform) }}
-			{% for message in messageList %}
-				<style>
-					.demo-card-wide.mdl-card {
-					margin-left: 25%;
-					margin-top:20px;
-					width: 50%;
-					}
-					.demo-card-wide > .mdl-card__title {
-					color: #000;
-					height: 176px;
-					background: url('../assets/demos/welcome_card.jpg') center / cover;
-					}
-					.demo-card-wide > .mdl-card__menu {
-					color: #fff;
-					}
-				</style>
-
-				<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-					<div class="mdl-card__title">
-						<h2 class="mdl-card__title-text">{{message.content}}</h2>
-					</div>
-					<div class="mdl-card__supporting-text">
-						le  {{message.datePost|date("j F \\à g:i", "Europe/Paris")}}
-					</div>
-					<div class="mdl-card__actions mdl-card--border">
-						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{{path('user',{'id_ami': message.idAuthor})}}">
-					  		{{message.usernameAuthor}}
-						</a>
-					</div>
-					<div class="mdl-card__menu">
-						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-					  	<i class="material-icons">share</i>
-					</button>
-					</div>
-				</div>
-
-
-
-
-
-				{#<div id="posts">
-					<p>{{message.content}}</p>
-					par : {{message.usernameAuthor}} le {{message.datePost|date("d/m/Y")}}
-				</div>#}
-			{% endfor %}
-		</div>
-
-		<div class="rightbodymain">
-		</div>
-
+{% block top %}
+<div>
+	{{ parent() }}
+	<div class="onoffswitch">
+		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+		<label class="onoffswitch-label" for="myonoffswitch">
+			<span class="onoffswitch-inner"></span>
+			<span class="onoffswitch-switch"></span>
+		</label>
 	</div>
 
-	<script>
-		var form = document.getElementById("res");
+</div>
+{% endblock %}
 
-		var menuRoot = document.getElementById("menuRoot");
-		var menuUser = document.getElementById("menuUser");
-		var isMenuUserDeployed = false;
-		menuUser.style.visibility = "hidden";
-		menuRoot.onmousedown = function() {showMenu()};
+{% block searchbar %}
+<div id="searchBar">
+	<div id="recherche">
+		{{ form_start(rech) }}
+		<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+			<label class="mdl-button mdl-js-button mdl-button--icon" for="labelres">
+				<i class="material-icons">search</i>
+			</label>
+			<div class="mdl-textfield__expandable-holder">
+				{{ form_widget(rech.recherche, {'id': 'labelres','attr':{'class': 'mdl-textfield__input'}}) }}
+				{{ form_label(rech.recherche, 'Recherche', {'for':'sample-expandable','label_attr': {'class': 'mdl-textfield__label'}}) }}
+			</div>
+		</div>
+		{{ form_end(rech) }}
+	</div>
 
-		function showMenu()
-		{
-			if(!isMenuUserDeployed){
-				menuUser.style.visibility = "visible"
-				isMenuUserDeployed = true;
-			}
-			else {
-				menuUser.style.visibility = "hidden"
-				isMenuUserDeployed = false;
-			}
+
+	<div id="ajax-results"></div>
+</div>
+{% endblock %}
+
+{% block menu %}
+{{ parent() }}
+{% endblock %}
+
+{% block drawer %}
+<div class="mdl-layout__drawer">
+	<span class="mdl-layout-title">Title</span>
+	<nav class="mdl-navigation">
+		<a class="mdl-navigation__link" href="">Link</a>
+		<a class="mdl-navigation__link" href="">Link</a>
+		<a class="mdl-navigation__link" href="">Link</a>
+		<a class="mdl-navigation__link" href="">Link</a>
+	</nav>
+</div>
+{% endblock %}
+
+{% block body %}
+<div>
+
+	<div class="leftbodymain">
+		<div id="menuRoot">
+			{{ app.user.username }}
+		</div>
+		<div id="menuUser">
+			{{ knp_menu_render('screenAddictBundle:Builder:menuUser') }}
+		</div>
+	</div>
+
+	<div class="bodymain">
+		{{ form_start(mesform) }}
+		{{ form_widget(mesform.message,{'id': 'labelmes'}) }}
+		{{ form_end(mesform) }}
+
+		<style>
+		.demo-card-wide.mdl-card {
+			margin-left: 25%;
+			margin-top:20px;
+			width: 50%;
 		}
+		.demo-card-wide > .mdl-card__title {
+			color: #000;
+			height: 176px;
+			background: url('../assets/demos/welcome_card.jpg') center / cover;
+		}
+		.demo-card-wide > .mdl-card__menu {
+			color: #fff;
+		}
+		</style>
 
-		var typingTimer;                //timer identifier
-        var doneTypingInterval = 500;  //time in ms (0.5 seconds)
+		{% for message in messageList %}
+		<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+			<div class="mdl-card__title">
+				<h2 class="mdl-card__title-text">{{message.content}}</h2>
+			</div>
+			<div class="mdl-card__supporting-text">
+				le  {{message.datePost|date("j F \\à g:i", "Europe/Paris")}}
+			</div>
+			<div class="mdl-card__actions mdl-card--border">
+				<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{{path('user',{'id_ami': message.idAuthor})}}">
+					{{message.usernameAuthor}}
+				</a>
+			</div>
+			<div class="mdl-card__menu">
+				<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+					<i class="material-icons">share</i>
+				</button>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
 
-        //on keyup, start the countdown
-        $('#labelres').keyup(function(){
-            clearTimeout(typingTimer);
-            if ($('#labelres').val()) {
-                typingTimer = setTimeout(doneTyping, doneTypingInterval);
-            }
-        });
+	<div class="rightbodymain">
+	</div>
 
-        //user is "finished typing," do something
-        function doneTyping () {
-			if(!document.getElementById("myonoffswitch").checked)
-			{//Si on recherche un film
-				$.ajax({
-	                url:'{{ (path('rechercher')) }}',
-	                type: "POST",
-	                dataType: "json",
-	                data: {'recherche' : $('#labelres').val()},
-	                async: true,
-	                success: function (data)
-	                {
-	                    parsedData = JSON.parse(data.output);
+</div>
 
-						//vider toutes les div dans #ajax-results
-						var t = document.getElementById("ajax-results");
-						while (t.firstChild) {
-						    t.removeChild(t.firstChild);
-						}
+<script>
+var form = document.getElementById("res");
 
-	                    for(var i = 0; i < parsedData.results.length; i++)
-	                    {
-							var hr = document.createElement('HR');
+var menuRoot = document.getElementById("menuRoot");
+var menuUser = document.getElementById("menuUser");
+var isMenuUserDeployed = false;
+menuUser.style.visibility = "hidden";
+menuRoot.onmousedown = function() {showMenu()};
 
-							var lien = document.createElement('a');
-							var url = '{{path('film',{'id_film': 'idofthefilmtoreplace'})}}';
-							url = url.replace("idofthefilmtoreplace", parsedData.results[i].id);
-							lien.setAttribute("href",url);
+function showMenu()
+{
+	if(!isMenuUserDeployed){
+		menuUser.style.visibility = "visible"
+		isMenuUserDeployed = true;
+	}
+	else {
+		menuUser.style.visibility = "hidden"
+		isMenuUserDeployed = false;
+	}
+}
 
-							var divparent = document.createElement('div');
-							var divimage = document.createElement('div');
-							var divinfo = document.createElement('div');
+var typingTimer;                //timer identifier
+var doneTypingInterval = 500;  //time in ms (0.5 seconds)
 
-							divimage.setAttribute("id","iddivimage");
-							divinfo.setAttribute("id","iddivinfo");
+//on keyup, start the countdown
+$('#labelres').keyup(function(){
+	clearTimeout(typingTimer);
+	if ($('#labelres').val()) {
+		typingTimer = setTimeout(doneTyping, doneTypingInterval);
+	}
+});
 
-							var ptitre = document.createElement('p');
-							var pdesc = document.createElement('p');
-							var pdate = document.createElement('p');
+//user is "finished typing," do something
+function doneTyping () {
+	if(document.getElementById("myonoffswitch").checked)
+	{//Si on recherche un film
+		$.ajax({
+			url:'{{ (path('rechercher')) }}',
+			type: "POST",
+			dataType: "json",
+			data: {'recherche' : $('#labelres').val()},
+			async: true,
+			success: function (data)
+			{
+				parsedData = JSON.parse(data.output);
 
-							var image = document.createElement('IMG');
-							image.setAttribute("src","http://image.tmdb.org/t/p/w92"+parsedData.results[i].poster_path)
+				//vider toutes les div dans #ajax-results
+				var t = document.getElementById("ajax-results");
+				while (t.firstChild) {
+					t.removeChild(t.firstChild);
+				}
 
-							var titre = document.createTextNode('Titre: '+parsedData.results[i].title);
-							var desc = document.createTextNode('Description: '+parsedData.results[i].overview);
-							var date = document.createTextNode('Date de sortie: '+parsedData.results[i].release_date);
+				for(var i = 0; i < parsedData.results.length; i++)
+				{
+					var hr = document.createElement('HR');
 
-							ptitre.appendChild(titre);
-							pdesc.appendChild(desc);
-							pdate.appendChild(date);
+					var lien = document.createElement('a');
+					var url = '{{path('film',{'id_film': 'idofthefilmtoreplace'})}}';
+					url = url.replace("idofthefilmtoreplace", parsedData.results[i].id);
+					lien.setAttribute("href",url);
 
-							divimage.appendChild(image);
-							divinfo.appendChild(ptitre);
-							divinfo.appendChild(pdesc);
-							divinfo.appendChild(pdate);
-							divparent.appendChild(divimage);
-							divparent.appendChild(divinfo);
-							divparent.appendChild(hr);
+					var divparent = document.createElement('div');
+					var divimage = document.createElement('div');
+					var divinfo = document.createElement('div');
 
-							lien.appendChild(divparent);
+					divimage.setAttribute("id","iddivimage");
+					divinfo.setAttribute("id","iddivinfo");
 
-							t.appendChild(lien);
-	                    }
-	                }
-	            });
+					var ptitre = document.createElement('p');
+					var pdesc = document.createElement('p');
+					var pdate = document.createElement('p');
+
+					var image = document.createElement('IMG');
+					image.setAttribute("src","http://image.tmdb.org/t/p/w92"+parsedData.results[i].poster_path)
+
+					var titre = document.createTextNode('Titre: '+parsedData.results[i].title);
+					var desc = document.createTextNode('Description: '+parsedData.results[i].overview);
+					var date = document.createTextNode('Date de sortie: '+parsedData.results[i].release_date);
+
+					ptitre.appendChild(titre);
+					pdesc.appendChild(desc);
+					pdate.appendChild(date);
+
+					divimage.appendChild(image);
+					divinfo.appendChild(ptitre);
+					divinfo.appendChild(pdesc);
+					divinfo.appendChild(pdate);
+					divparent.appendChild(divimage);
+					divparent.appendChild(divinfo);
+					divparent.appendChild(hr);
+
+					lien.appendChild(divparent);
+
+					t.appendChild(lien);
+				}
 			}
-			else
-			{//si on recherche un ami
-				$.ajax({
-	                url:'{{ (path('rechercherAmi')) }}',
-	                type: "POST",
-					dataType: "json",
-	                data: {'recherche' : $('#labelres').val()},
-	                async: true,
-	                success: function (data)
-	                {
-						parsedData = JSON.parse(data.output);
+		});
+	}
+	else
+	{//si on recherche un ami
+		$.ajax({
+			url:'{{ (path('rechercherAmi')) }}',
+			type: "POST",
+			dataType: "json",
+			data: {'recherche' : $('#labelres').val()},
+			async: true,
+			success: function (data)
+			{
+				parsedData = JSON.parse(data.output);
 
-						//vider toutes les div dans #ajax-results
-						var t = document.getElementById("ajax-results");
-						while (t.firstChild) {
-						    t.removeChild(t.firstChild);
-						}
+				//vider toutes les div dans #ajax-results
+				var t = document.getElementById("ajax-results");
+				while (t.firstChild) {
+					t.removeChild(t.firstChild);
+				}
 
-						var hr = document.createElement('HR');
+				var hr = document.createElement('HR');
 
-						var lien = document.createElement('a');
-						var url = '{{path('user',{'id_ami': 'idofthefriendtoreplace'})}}';
-						url = url.replace("idofthefriendtoreplace", parsedData.id);
-						lien.setAttribute("href",url);
+				var lien = document.createElement('a');
+				var url = '{{path('user',{'id_ami': 'idofthefriendtoreplace'})}}';
+				url = url.replace("idofthefriendtoreplace", parsedData.id);
+				lien.setAttribute("href",url);
 
-						var divinfo = document.createElement('div');
+				var divinfo = document.createElement('div');
 
-						var pusername = document.createElement('p');
-						var pfname = document.createElement('p');
-						var pname = document.createElement('p');
+				var pusername = document.createElement('p');
+				var pfname = document.createElement('p');
+				var pname = document.createElement('p');
 
-						var username = document.createTextNode('Nom d\'utilisateur: '+parsedData.username);
-						var fname = document.createTextNode('Prenom: '+parsedData.fname);
-						var name = document.createTextNode('Nom: '+parsedData.name);
+				var username = document.createTextNode('Nom d\'utilisateur: '+parsedData.username);
+				var fname = document.createTextNode('Prenom: '+parsedData.fname);
+				var name = document.createTextNode('Nom: '+parsedData.name);
 
-						pusername.appendChild(username);
-						pfname.appendChild(fname);
-						pname.appendChild(name);
+				pusername.appendChild(username);
+				pfname.appendChild(fname);
+				pname.appendChild(name);
 
-						divinfo.appendChild(pusername);
-						divinfo.appendChild(pfname);
-						divinfo.appendChild(pname);
-						divinfo.appendChild(hr);
+				divinfo.appendChild(pusername);
+				divinfo.appendChild(pfname);
+				divinfo.appendChild(pname);
+				divinfo.appendChild(hr);
 
-						lien.appendChild(divinfo);
+				lien.appendChild(divinfo);
 
-						t.appendChild(lien);
+				t.appendChild(lien);
 
-	                }
-	            });
 			}
-        }
-	</script>
+		});
+	}
+}
+</script>
 
 {% endblock %}

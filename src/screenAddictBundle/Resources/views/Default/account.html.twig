@@ -2,29 +2,42 @@
 
 {% block title %}{{ parent() }}{% endblock %}
 
+{% block top %}
+	{{ parent() }}
+{% endblock %}
+
+{% block menu %}
+{{ parent() }}
+{% endblock %}
+
+{% block drawer %}
+<div class="mdl-layout__drawer">
+	<span class="mdl-layout-title">Title</span>
+	<nav class="mdl-navigation">
+		<a class="mdl-navigation__link" href="">Link</a>
+		<a class="mdl-navigation__link" href="">Link</a>
+		<a class="mdl-navigation__link" href="">Link</a>
+		<a class="mdl-navigation__link" href="">Link</a>
+	</nav>
+</div>
+{% endblock %}
 
 {% block body %}
-
-    {% block top %}
-		{{ parent() }}
-	{% endblock %}
-
-	<div>
-		<div class="leftbodymain">
-		</div>
-
-		<div class="bodymain">
-			
-		</div>
-
-		<div class="rightbodymain">
-		</div>
+<div>
+	<div class="leftbodymain">
 	</div>
 
-	<script>
+	<div class="bodymain">
+
+	</div>
+
+	<div class="rightbodymain">
+	</div>
+</div>
+
+<script>
 
 
 
-	</script>
-
+</script>
 {% endblock %}

@@ -2,47 +2,31 @@
 
 {% block title %}{{ parent() }} - Accueil{% endblock %}
 
+{% block top %}
+{{ parent() }}
+{% endblock %}
 
 {% block body %}
 
-    {% block top %}
-	<div>
-		{{ parent() }}
+	<form action="{{ path('login_check') }}" method="post">
+		<div class="mdl-textfield mdl-js-textfield">
+			<input class="mdl-textfield__input" type="text" id="username" name="_username" value="{{ last_username }}">
+			<label class="mdl-textfield__label" for="username">Login</label>
+		</div>
+		<br />
+		<div class="mdl-textfield mdl-js-textfield">
+			<input class="mdl-textfield__input" type="text" id="password" name="_password">
+			<label class="mdl-textfield__label" for="password">Mot de passe</label>
+		</div>
+		<br />
+		<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+			Connexion
+		</button>
+	</form>
 
-        <div id = "enteted">
-            {#<form action="{{ path('login_check') }}" method="post">
-              	<label for="username" class="labelLogin">Login :</label>
-              	<input type="text" id="username" name="_username" value="{{ last_username }}" />
-			  	<br />
-              	<label for="password" class="labelLogin">Mot de passe :</label>
-              	<input type="password" id="password" name="_password" />
-              	<br />
-              	<input type="submit" value="Connexion" id="buttonLogin" />
-            </form>#}
-
-			<form action="{{ path('login_check') }}" method="post">
-			  	<div class="mdl-textfield mdl-js-textfield">
-			    	<input class="mdl-textfield__input" type="text" id="username" name="_username" value="{{ last_username }}">
-			    	<label class="mdl-textfield__label" for="username">Login</label>
-			  	</div>
-				<br />
-				<div class="mdl-textfield mdl-js-textfield">
-			    	<input class="mdl-textfield__input" type="text" id="password" name="_password">
-			    	<label class="mdl-textfield__label" for="password">Mot de passe</label>
-			  	</div>
-              	<br />
-				<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-				  	Connexion
-				</button>
-			</form>
-
-            {% if error %}
-                <div class="alert alert-danger">{{ error.message }}</div>
-            {% endif %}
-        </div>
-	</div>
-
-	{% endblock %}
+	{% if error %}
+		<div class="alert alert-danger">{{ error.message }}</div>
+	{% endif %}
 
     <div id="descdiv">
         <h1>BONJOUR</h1>
@@ -72,5 +56,4 @@
     <div id="regdiv">
         {{ form(regForm) }}
     </div>
-
 {% endblock %}

@@ -73,7 +73,7 @@ class DefaultController extends Controller
 		$user = $this->getUser();
 
 		//Formulaire de recherche
-		$researchData = array('recherche' => '');
+		$researchData = array();
 		$researchForm = $this->createFormBuilder($researchData,['attr' => ['id' => 'res']])
 			->setAction($this->generateUrl('rechercher'))
             ->setMethod('POST')
