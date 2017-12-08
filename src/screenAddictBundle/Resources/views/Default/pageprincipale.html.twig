@@ -4,17 +4,7 @@
 
 
 {% block top %}
-<div>
-	{{ parent() }}
-	<div class="onoffswitch">
-		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-		<label class="onoffswitch-label" for="myonoffswitch">
-			<span class="onoffswitch-inner"></span>
-			<span class="onoffswitch-switch"></span>
-		</label>
-	</div>
-
-</div>
+{{ parent() }}
 {% endblock %}
 
 {% block searchbar %}
@@ -25,7 +15,7 @@
 			<label class="mdl-button mdl-js-button mdl-button--icon" for="labelres">
 				<i class="material-icons">search</i>
 			</label>
-			<div class="mdl-textfield__expandable-holder">
+			<div class="mdl-textfield__expandable-holder" id="holderResearch">
 				{{ form_widget(rech.recherche, {'id': 'labelres','attr':{'class': 'mdl-textfield__input'}}) }}
 				{{ form_label(rech.recherche, 'Recherche', {'for':'sample-expandable','label_attr': {'class': 'mdl-textfield__label'}}) }}
 			</div>
@@ -38,8 +28,27 @@
 </div>
 {% endblock %}
 
+{% block switchamifilm %}
+<div class="onoffswitch">
+    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+    <label class="onoffswitch-label" for="myonoffswitch">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+    </label>
+</div>
+{% endblock %}
+
 {% block menu %}
-{{ parent() }}
+<button id="demo-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
+	<i class="material-icons">more_vert</i>
+</button>
+
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-right" id="menu">
+	<li class="mdl-menu__item" id="usernamemenu" disabled>{{ app.user.username|capitalize }}</li>
+	<hr id="hr" />
+	<a  href="{{path('account')}}"><li class="mdl-menu__item">Compte</li></a>
+	<a  href="{{path('logout')}}"><li class="mdl-menu__item">Se déconnecter</li></a>
+</ul>
 {% endblock %}
 
 {% block drawer %}
@@ -56,20 +65,24 @@
 
 {% block body %}
 <div>
+
+	<div class="leftbodymain"></div>
 	<div class="bodymain">
 		{{ form_start(mesform) }}
-		{{ form_widget(mesform.message,{'id': 'labelmes'}) }}
+		  	<div class="mdl-textfield mdl-js-textfield" id="holderMessage">
+		    	{{ form_widget(mesform.message,{'id': 'labelmes','attr': {'class': 'mdl-textfield__input'}}) }}
+				{{ form_label(mesform.message, 'Entrez votre message', {'for':'labelmes','label_attr': {'class': 'mdl-textfield__label'}}) }}
+		  	</div>
 		{{ form_end(mesform) }}
 
 		<style>
 		.demo-card-wide.mdl-card {
-			margin-left: 25%;
+			width:100%;
 			margin-top:20px;
-			width: 50%;
 		}
 		.demo-card-wide > .mdl-card__title {
 			color: #000;
-			height: 176px;
+			height: 150px;
 			background: url('../assets/demos/welcome_card.jpg') center / cover;
 		}
 		.demo-card-wide > .mdl-card__menu {
@@ -112,25 +125,6 @@ $('#labelres').focusout(function(){
   	}, 200);
 });
 
-
-var menuRoot = document.getElementById("menuRoot");
-var menuUser = document.getElementById("menuUser");
-var isMenuUserDeployed = false;
-menuUser.style.visibility = "hidden";
-menuRoot.onmousedown = function() {showMenu()};
-
-function showMenu()
-{
-	if(!isMenuUserDeployed){
-		menuUser.style.visibility = "visible"
-		isMenuUserDeployed = true;
-	}
-	else {
-		menuUser.style.visibility = "hidden"
-		isMenuUserDeployed = false;
-	}
-}
-
 var typingTimer;                //timer identifier
 var doneTypingInterval = 500;  //time in ms (0.5 seconds)
 
@@ -140,6 +134,21 @@ $('#labelres').keyup(function(){
 	if ($('#labelres').val()) {
 		typingTimer = setTimeout(doneTyping, doneTypingInterval);
 	}
+});
+
+$('#labelres').keydown(function(event){
+	if(event.keyCode == 13) {
+      	event.preventDefault();
+      	return false;
+    }
+});
+
+var formmes = document.getElementById("mes");
+$('#labelmes').keydown(function(event){
+	if(event.keyCode == 13) {
+		event.preventDefault();
+		formmes.submit();
+    }
 });
 
 //user is "finished typing," do something

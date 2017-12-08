@@ -7,6 +7,7 @@ use screenAddictBundle\Entity\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -81,9 +82,9 @@ class DefaultController extends Controller
 			->getForm();
 
 		//Formulaire de messages
-		$messageData = array('message' => 'Entrez votre message');
-		$messageForm = $this->createFormBuilder($messageData)
-			->add('message', TextType::class, array('label' => false))
+		$messageData = array();
+		$messageForm = $this->createFormBuilder($messageData,['attr' => ['id' => 'mes']])
+			->add('message', TextareaType::class, array('label' => false,'attr' => ['autocomplete' => 'off']))
 			->getForm();
 
 		$allMessages = $user->getMessages()->toArray();

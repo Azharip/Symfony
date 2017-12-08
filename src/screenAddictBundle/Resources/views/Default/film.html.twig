@@ -10,7 +10,16 @@
 {% endblock %}
 
 {% block menu %}
-{{ parent() }}
+<button id="demo-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
+	<i class="material-icons">more_vert</i>
+</button>
+
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-right" id="menu">
+	<li class="mdl-menu__item" id="usernamemenu" disabled>{{ app.user.username|capitalize }}</li>
+	<hr id="hr" />
+	<a  href="{{path('account')}}"><li class="mdl-menu__item">Compte</li></a>
+	<a  href="{{path('logout')}}"><li class="mdl-menu__item">Se déconnecter</li></a>
+</ul>
 {% endblock %}
 
 {% block drawer %}

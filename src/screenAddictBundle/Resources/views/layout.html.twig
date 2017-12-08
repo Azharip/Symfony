@@ -23,6 +23,9 @@
 				{% block searchbar %}
 				{% endblock %}
 
+				{% block switchamifilm %}
+				{% endblock %}
+
 				<div class="mdl-layout-spacer">
 				</div>
 
@@ -30,18 +33,8 @@
 				<nav class="mdl-navigation mdl-layout--large-screen-only">
 					<a class="mdl-navigation__link" href="{{ path('home')}}">Accueil</a>
 					<a class="mdl-navigation__link" href="{{ path('user',{'id_ami': -1})}}">Profil</a>
-					<a class="mdl-navigation__link" href="">Link</a>
-					<a class="mdl-navigation__link" href="">Link</a>
 				</nav>
 				{% block menu %}
-				<button id="demo-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
-		  			<i class="material-icons">more_vert</i>
-				</button>
-
-				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-right">
-					<a  href="{{path('account')}}"><li class="mdl-menu__item">Compte</li></a>
-					<a  href="{{path('logout')}}"><li class="mdl-menu__item">Se déconnecter</li></a>
-				</ul>
 				{% endblock %}
 			</div>
 		</header>
