@@ -56,16 +56,6 @@
 
 {% block body %}
 <div>
-
-	<div class="leftbodymain">
-		<div id="menuRoot">
-			{{ app.user.username }}
-		</div>
-		<div id="menuUser">
-			{{ knp_menu_render('screenAddictBundle:Builder:menuUser') }}
-		</div>
-	</div>
-
 	<div class="bodymain">
 		{{ form_start(mesform) }}
 		{{ form_widget(mesform.message,{'id': 'labelmes'}) }}
@@ -108,14 +98,20 @@
 		</div>
 		{% endfor %}
 	</div>
-
-	<div class="rightbodymain">
-	</div>
-
 </div>
 
 <script>
 var form = document.getElementById("res");
+
+$('#labelres').focusout(function(){
+	setTimeout(function(){
+	    var t = document.getElementById("ajax-results");
+	    while (t.firstChild) {
+	        t.removeChild(t.firstChild);
+    	}
+  	}, 200);
+});
+
 
 var menuRoot = document.getElementById("menuRoot");
 var menuUser = document.getElementById("menuUser");

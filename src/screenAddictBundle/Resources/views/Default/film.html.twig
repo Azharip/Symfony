@@ -27,15 +27,7 @@
 
 {% block body %}
 	<div>
-		<div class="leftbodymain">
-		</div>
-
-		<div class="bodymain">
-			<div id="infos">
-			</div>
-		</div>
-
-		<div class="rightbodymain">
+		<div id="infos">
 		</div>
 	</div>
 
@@ -73,17 +65,17 @@
 		divinfo.setAttribute("id","filmdivinfo");
 		divdesc.setAttribute("id","filmdivdesc");
 
-		var ptitre = document.createElement('h2');
-		var pdate = document.createElement('h4');
-		var preal = document.createElement('h4');
-		var pactors = document.createElement('h4');
-		var pgenre = document.createElement('h4');
-		var pdesc = document.createElement('h4');
+		var ptitre = document.createElement('h3');
+		var pdate = document.createElement('h5');
+		var preal = document.createElement('h5');
+		var pactors = document.createElement('h5');
+		var pgenre = document.createElement('h5');
+		var pdesc = document.createElement('p');
 
 		var image = document.createElement('IMG');
 		image.setAttribute("src","http://image.tmdb.org/t/p/w185"+film_details.poster_path)
 
-		var titre = document.createTextNode('Titre: '+film_details.title);
+		var titre = document.createTextNode(film_details.title);
 		var date = document.createTextNode('Date de sortie: '+film_details.release_date);
 		var real = document.createTextNode('Réalisateur: '+film_crew.crew[0].name);
 
@@ -118,7 +110,6 @@
 
 		divimage.appendChild(image);
 
-		divinfo.appendChild(ptitre);
 		divinfo.appendChild(pdate);
 		divinfo.appendChild(preal);
 		divinfo.appendChild(pactors);
@@ -127,7 +118,7 @@
 		divinfo.appendChild(form);
 
 		divdesc.appendChild(pdesc);
-
+		divparent.appendChild(ptitre);
 		divparent.appendChild(divimage);
 		divparent.appendChild(divinfo);
 		divparent.appendChild(divdesc);

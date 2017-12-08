@@ -7,16 +7,12 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="{{ asset('css/stylesheet.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
-	{#<link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">#}
 	{% endblock %}
 	<script src="{{ asset('js/jquery.min.js') }}"></script>
 	<script src="{{ asset('css/material.min.js') }}"></script>
-	{#<script src="{{ asset('js/bootstrap.js') }}"></script>#}
 	<title>{% block title %}screenAddict{% endblock %}</title>
 </head>
 <body>
-
-
 	{% block top %}
 	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 		<header class="mdl-layout__header">
@@ -24,11 +20,12 @@
 				<!-- Title -->
 				<span class="mdl-layout-title">ScreenAddict</span>
 				<!-- Add spacer, to align navigation to the right -->
-				<div class="mdl-layout-spacer">
-					{% block searchbar %}
-					{% endblock %}
+				{% block searchbar %}
+				{% endblock %}
 
+				<div class="mdl-layout-spacer">
 				</div>
+
 				<!-- Navigation. We hide it in small screens. -->
 				<nav class="mdl-navigation mdl-layout--large-screen-only">
 					<a class="mdl-navigation__link" href="{{ path('home')}}">Accueil</a>

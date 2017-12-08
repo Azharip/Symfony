@@ -20,3 +20,55 @@
   content: "\f005 \f005 \f005 \f005 \f005\f005 \f005 \f005 \f005 \f005";
   color: #f8ce0b;
 }
+
+#searchBar{
+	position:absolute;
+	left:25%;
+	display : inline-block;
+	vertical-align: top;
+	width:50%;
+	max-height: 60%;
+    overflow: auto;
+	top:0%;
+}
+
+#ajax-results{
+	background-color:#673ab7;
+}
+
+#ajax-results a{
+	color:white;
+	text-decoration: none;
+}
+
+#iddivimage{
+	display : inline-block;
+	vertical-align: top;
+}
+
+#iddivinfo{
+	display : inline-block;
+	vertical-align: top;
+	width: 90%;
+}
+
+#filmdivimage{
+	display : inline-block;
+	vertical-align: top;
+}
+
+#filmdivinfo{
+	display : inline-block;
+	vertical-align: top;
+	width: 80%;
+}
+
+#infos{
+	position:absolute;
+	left:25%;
+	width:50%;
+}
+
+#infos p{
+	text-align: justify;
+}
