@@ -8,52 +8,135 @@
 
 {% block body %}
 
-	<form action="{{ path('login_check') }}" method="post">
-		<div class="mdl-textfield mdl-js-textfield">
-			<input class="mdl-textfield__input" type="text" id="username" name="_username" value="{{ last_username }}">
-			<label class="mdl-textfield__label" for="username">Login</label>
-		</div>
-		<br />
-		<div class="mdl-textfield mdl-js-textfield">
-			<input class="mdl-textfield__input" type="password" id="password" name="_password">
-			<label class="mdl-textfield__label" for="password">Mot de passe</label>
-		</div>
-		<br />
-		<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-			Connexion
-		</button>
-	</form>
+	<div id="formLogin">
+		<form action="{{ path('login_check') }}" method="post">
+			<div class="mdl-textfield mdl-js-textfield">
+				<input class="mdl-textfield__input" type="text" id="username" name="_username" value="{{ last_username }}">
+				<label class="mdl-textfield__label" for="username">Login</label>
+			</div>
+			<br />
+			<div class="mdl-textfield mdl-js-textfield">
+				<input class="mdl-textfield__input" type="password" id="password" name="_password">
+				<label class="mdl-textfield__label" for="password">Mot de passe</label>
+			</div>
+			<br />
+			<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+				Connexion
+			</button>
+		</form>
 
-	{% if error %}
-		<div class="alert alert-danger">{{ error.message }}</div>
-	{% endif %}
+		{% if error %}
+			<div class="alert alert-danger">{{ error.message }}</div>
+		{% endif %}
+	</div>
+
 
     <div id="descdiv">
-        <h1>BONJOUR</h1>
+        <h2>Bienvenue sur ScreenAddict</h2>
         <p>
-            Bienvenue sur notre réseau social dédié aux séries.
+            {#Bienvenue sur notre réseau social dédié aux séries.
             Nous espérons que vous partagerez ce site pour que nous nous fassions un sacré paquet de pognon.
             Nous envisageons d'intégrer des loot box lors de la prochaine maj &num;moremoney.
             Avec cet argent, nous irons aux Bahamas pendant que vous serez sur notre site nul qui permet de voir quelles séries vous avez regardé.
-            Vous pourrez aussi avoir des amis mais vous en avez pas donc c'est une fonctionnalité inutile qu'on va bacler.
-        </p>
-        <p>
-            Bienvenue sur notre réseau social dédié aux séries.
-            Nous espérons que vous partagerez ce site pour que nous nous fassions un sacré paquet de pognon.
-            Nous envisageons d'intégrer des loot box lors de la prochaine maj &num;moremoney.
-            Avec cet argent, nous irons aux Bahamas pendant que vous serez sur notre site nul qui permet de voir quelles séries vous avez regardé.
-            Vous pourrez aussi avoir des amis mais vous en avez pas donc c'est une fonctionnalité inutile qu'on va bacler.
-        </p>
-        <p>
-            Bienvenue sur notre réseau social dédié aux séries.
-            Nous espérons que vous partagerez ce site pour que nous nous fassions un sacré paquet de pognon.
-            Nous envisageons d'intégrer des loot box lors de la prochaine maj &num;moremoney.
-            Avec cet argent, nous irons aux Bahamas pendant que vous serez sur notre site nul qui permet de voir quelles séries vous avez regardé.
-            Vous pourrez aussi avoir des amis mais vous en avez pas donc c'est une fonctionnalité inutile qu'on va bacler.
-        </p>
-    </div>
+            Vous pourrez aussi avoir des amis mais vous en avez pas donc c'est une fonctionnalité inutile qu'on va bacler.#}
 
-    <div id="regdiv">
-        {{ form(regForm) }}
+        </p>
     </div>
+	{% block registration %}
+
+	    <div id="regdiv">
+	        {{ form_start(regForm) }}
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				<div>
+					{{ form_widget(regForm.username, {'id': 'username','attr':{'class': 'mdl-textfield__input'}}) }}
+					{{ form_label(regForm.username, 'Nom d\'utilisateur', {'for':'sample-expandable','label_attr': {'class': 'mdl-textfield__label'}}) }}
+				</div>
+			</div>
+			<br />
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				<div>
+					{{ form_widget(regForm.password, {'id': 'mdp','attr':{'class': 'mdl-textfield__input'}}) }}
+					{{ form_label(regForm.password, 'Mot de passe', {'for':'sample-expandable','label_attr': {'class': 'mdl-textfield__label'}}) }}
+				</div>
+			</div>
+			<br />
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				<div>
+					{{ form_widget(regForm.name, {'id': 'name','attr':{'class': 'mdl-textfield__input'}}) }}
+					{{ form_label(regForm.name, 'Nom', {'for':'sample-expandable','label_attr': {'class': 'mdl-textfield__label'}}) }}
+				</div>
+			</div>
+			<br />
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				<div>
+					{{ form_widget(regForm.fname, {'id': 'fname','attr':{'class': 'mdl-textfield__input'}}) }}
+					{{ form_label(regForm.fname, 'Prenom', {'for':'sample-expandable','label_attr': {'class': 'mdl-textfield__label'}}) }}
+				</div>
+			</div>
+			<br />
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				<div>
+					{{ form_widget(regForm.mail, {'id': 'mail','attr':{'class': 'mdl-textfield__input'}}) }}
+					{{ form_label(regForm.mail, 'E-mail', {'for':'sample-expandable','label_attr': {'class': 'mdl-textfield__label'}}) }}
+				</div>
+			</div>
+			<br />
+
+			{#<!-- Select with arrow-->
+        	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height">
+	            <input class="mdl-textfield__input" type="text" id="sample2" value="Day" readonly tabIndex="-1">
+	            <label for="sample2">
+	                <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+	            </label>
+	            <label for="sample2" class="mdl-textfield__label">Country</label>
+	            <ul for="sample2" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+	                <li class="mdl-menu__item" data-val="DE">Germany</li>
+	                <li class="mdl-menu__item" data-val="BY">Belarus</li>
+	                <li class="mdl-menu__item" data-val="RU">Russia</li>
+	            </ul>
+	        </div>
+			#}
+			{{ form_label(regForm.bdate, 'Date de naissance', {'label_attr': {'class': 'label_bdate'}}) }}
+			{{ form_widget(regForm.bdate, {'id': 'bdate'}) }}
+			<script>
+				$("#bdate").flatpickr();
+			</script>
+
+
+			<br />
+
+			<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+  				Envoyer
+			</button>
+
+			<br />
+
+			{{ form_end(regForm) }}
+	    </div>
+
+	{% endblock registration %}
+
+	{#{% block searchbar %}
+	<div id="searchBar">
+		<div id="recherche">
+			{{ form_start(rech) }}
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+				<label class="mdl-button mdl-js-button mdl-button--icon" for="labelres">
+					<i class="material-icons">search</i>
+				</label>
+				<div class="mdl-textfield__expandable-holder">
+					{{ form_widget(rech.recherche, {'id': 'labelres','attr':{'class': 'mdl-textfield__input'}}) }}
+					{{ form_label(rech.recherche, 'Recherche', {'for':'sample-expandable','label_attr': {'class': 'mdl-textfield__label'}}) }}
+				</div>
+			</div>
+			{{ form_end(rech) }}
+		</div>
+
+
+		<div id="ajax-results"></div>
+	</div>
+	{% endblock %}#}
+
+
+
 {% endblock %}

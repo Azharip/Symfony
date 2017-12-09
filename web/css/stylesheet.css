@@ -1,3 +1,16 @@
+#descdiv{
+    width: 50%;
+}
+
+#formLogin{
+    display: inline-block;
+    float: right;
+}
+
+.label_bdate{
+    color:#D50000;
+}
+
 .stars-outer {
   display: inline-block;
   position: relative;

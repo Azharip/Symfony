@@ -38,8 +38,14 @@ class DefaultController extends Controller
             ->add('name',       TextType::class,array('label'=>'Nom'))
             ->add('fname',      TextType::class,array('label'=>'Prénom'))
             ->add('mail',       EmailType::class,array('label'=>'Email'))
-            ->add('bdate',      BirthdayType::class,array('label'=>'Date de naissance','format' => 'ddMMMyyyy'))
-            ->add('Valider',    SubmitType::class)
+            ->add('bdate',      BirthdayType::class,array(
+                'widget' => 'single_text'//,
+                /*'format' => 'ddMMyyyy',
+                'label_attr' => array('id' => 'DdN'),
+                'placeholder' => array(
+                    'year' => 'Annee', 'month' => 'Mois', 'day' => 'Jour')*/
+                )
+            )
             ->getForm()
         ;
 

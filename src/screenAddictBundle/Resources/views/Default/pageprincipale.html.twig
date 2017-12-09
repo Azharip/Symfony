@@ -69,12 +69,17 @@
 			margin-top:20px;
 		}
 		.demo-card-wide > .mdl-card__title {
-			color: #000;
-			height: 160px;
-			background: url('../assets/demos/welcome_card.jpg') center / cover;
+			color: #fff;
+			height: 150px;
+			background: linear-gradient(to bottom, #9A67EA, #673AB7);
 		}
 		.demo-card-wide > .mdl-card__menu {
 			color: #fff;
+		}
+		#dateCard{
+			color:#757575;
+			font-size: 0.9em;
+			display: inline-block;
 		}
 		</style>
 
@@ -83,13 +88,13 @@
 			<div class="mdl-card__title">
 				<h2 class="mdl-card__title-text">{{message.content}}</h2>
 			</div>
-			<div class="mdl-card__supporting-text">
-				le  {{message.datePost|date("j F \\à g:i", "Europe/Paris")}}
-			</div>
 			<div class="mdl-card__actions mdl-card--border">
 				<a class="mdl-button mdl-js-button mdl-button--primary" href="{{path('user',{'id_ami': message.idAuthor})}}">
 					{{message.usernameAuthor}}
 				</a>
+				<p id="dateCard">
+					le  {{message.datePost|date("j F \\à g:i", "Europe/Paris")}}
+				</p>
 			</div>
 		</div>
 		{% endfor %}
