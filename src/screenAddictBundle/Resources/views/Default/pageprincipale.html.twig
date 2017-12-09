@@ -51,18 +51,6 @@
 </ul>
 {% endblock %}
 
-{% block drawer %}
-<div class="mdl-layout__drawer">
-	<span class="mdl-layout-title">Title</span>
-	<nav class="mdl-navigation">
-		<a class="mdl-navigation__link" href="">Link</a>
-		<a class="mdl-navigation__link" href="">Link</a>
-		<a class="mdl-navigation__link" href="">Link</a>
-		<a class="mdl-navigation__link" href="">Link</a>
-	</nav>
-</div>
-{% endblock %}
-
 {% block body %}
 <div>
 
@@ -82,7 +70,7 @@
 		}
 		.demo-card-wide > .mdl-card__title {
 			color: #000;
-			height: 150px;
+			height: 160px;
 			background: url('../assets/demos/welcome_card.jpg') center / cover;
 		}
 		.demo-card-wide > .mdl-card__menu {
@@ -99,14 +87,9 @@
 				le  {{message.datePost|date("j F \\à g:i", "Europe/Paris")}}
 			</div>
 			<div class="mdl-card__actions mdl-card--border">
-				<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{{path('user',{'id_ami': message.idAuthor})}}">
+				<a class="mdl-button mdl-js-button mdl-button--primary" href="{{path('user',{'id_ami': message.idAuthor})}}">
 					{{message.usernameAuthor}}
 				</a>
-			</div>
-			<div class="mdl-card__menu">
-				<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-					<i class="material-icons">share</i>
-				</button>
 			</div>
 		</div>
 		{% endfor %}
