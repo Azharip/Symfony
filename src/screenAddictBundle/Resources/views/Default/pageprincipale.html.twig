@@ -267,7 +267,7 @@ function doneTyping () {
 function doneTypingMes()
 {
 	$.ajax({
-		url:'{{ (path('rechercherFilmsMes')) }}',
+		url:'{{ (path('rechercher')) }}',
 		type: "POST",
 		dataType: "json",
 		data: {'message' : $('#labelmes').val()},
