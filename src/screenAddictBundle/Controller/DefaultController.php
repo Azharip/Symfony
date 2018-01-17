@@ -25,11 +25,8 @@ use Symfony\Component\Form\FormFactory;
 
 class DefaultController extends Controller
 {
-
     public function indexAction(Request $request)
     {
-        //$userRepository = $em->getRepository('screenAddictBundle:User');
-
         $user = new User();
 
         $regForm = $this->createFormBuilder($user)
@@ -38,14 +35,7 @@ class DefaultController extends Controller
             ->add('name',       TextType::class,array('label'=>'Nom'))
             ->add('fname',      TextType::class,array('label'=>'Prénom'))
             ->add('mail',       EmailType::class,array('label'=>'Email'))
-            ->add('bdate',      BirthdayType::class,array(
-                'widget' => 'single_text'//,
-                /*'format' => 'ddMMyyyy',
-                'label_attr' => array('id' => 'DdN'),
-                'placeholder' => array(
-                    'year' => 'Annee', 'month' => 'Mois', 'day' => 'Jour')*/
-                )
-            )
+            ->add('bdate',      BirthdayType::class,array('widget' => 'single_text'))
             ->getForm()
         ;
 
@@ -55,7 +45,7 @@ class DefaultController extends Controller
             $passwordEncoder = $this->get('security.password_encoder');
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-            $user->setSalt(generateRandomString());
+            $user->setSalt($this->generateRandomString());
             $user->setRoles(array('ROLE_USER'));
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
@@ -262,7 +252,7 @@ class DefaultController extends Controller
 
         return $this->render('screenAddictBundle:Default:user.html.twig',
 		['id_ami'=>$id_ami,
-		'id_user'=>$user->getId(),
+		'id_user'=>$this->getUser()->getId(),
         'username'=>$user->getUsername(),
         'fname'=>$user->getFname(),
         'name'=>$user->getName(),
@@ -317,6 +307,7 @@ class DefaultController extends Controller
 
         return $this->render('screenAddictBundle:Default:user.html.twig',
 		['id_ami'=>$id_ami,
+		'id_user'=>$this->getUser()->getId(),
         'username'=>$me->getUsername(),
         'fname'=>$me->getFname(),
         'name'=>$me->getName(),
@@ -412,7 +403,8 @@ class DefaultController extends Controller
 		'errorpwd2' => $errorpwd2]);
     }
 
-	private function generateRandomString($length = 10) {
+	public function generateRandomString($length = 10)
+	{
 	    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	    $charactersLength = strlen($characters);
 	    $randomString = '';
@@ -421,5 +413,4 @@ class DefaultController extends Controller
 	    }
 	    return $randomString;
 	}
-
 }

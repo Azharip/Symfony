@@ -70,17 +70,18 @@
 		}
 		.demo-card-wide > .mdl-card__title {
 			color: #fff;
-			height: 150px;
-			background: linear-gradient(to bottom, #9A67EA, #673AB7);
+      		height: 150px;
+      		background: linear-gradient(to bottom, #9A67EA, #673AB7);
 		}
 		.demo-card-wide > .mdl-card__menu {
 			color: #fff;
 		}
 		#dateCard{
-			color:#757575;
-			font-size: 0.9em;
-			display: inline-block;
-		}
+	      	color:#757575;
+	      	font-size: 0.9em;
+	      	display: inline-block;
+	    }
+
 		</style>
 
 		{% for message in messageList %}
@@ -93,8 +94,8 @@
 					{{message.usernameAuthor}}
 				</a>
 				<p id="dateCard">
-					le  {{message.datePost|date("j F \\à g:i", "Europe/Paris")}}
-				</p>
+		          	le  {{message.datePost|date("j F \\à g:i", "Europe/Paris")}}
+		        </p>
 			</div>
 		</div>
 		{% endfor %}
@@ -137,6 +138,11 @@ $('#labelmes').keydown(function(event){
 		event.preventDefault();
 		formmes.submit();
     }
+
+	if(event.key == '@')
+	{
+		typingTimer = setTimeout(doneTypingMes, doneTypingInterval);
+	}
 });
 
 //user is "finished typing," do something
@@ -256,6 +262,71 @@ function doneTyping () {
 			}
 		});
 	}
+}
+
+function doneTypingMes()
+{
+	$.ajax({
+		url:'{{ (path('rechercherFilmsMes')) }}',
+		type: "POST",
+		dataType: "json",
+		data: {'message' : $('#labelmes').val()},
+		async: true,
+		success: function (data)
+		{
+			parsedData = JSON.parse(data.output);
+
+			//vider toutes les div dans #ajax-results
+			var t = document.getElementById("ajax-results");
+			while (t.firstChild) {
+				t.removeChild(t.firstChild);
+			}
+
+			for(var i = 0; i < parsedData.results.length; i++)
+			{
+				var hr = document.createElement('HR');
+
+				var lien = document.createElement('a');
+				var url = '{{path('film',{'id_film': 'idofthefilmtoreplace'})}}';
+				url = url.replace("idofthefilmtoreplace", parsedData.results[i].id);
+				lien.setAttribute("href",url);
+
+				var divparent = document.createElement('div');
+				var divimage = document.createElement('div');
+				var divinfo = document.createElement('div');
+
+				divimage.setAttribute("id","iddivimage");
+				divinfo.setAttribute("id","iddivinfo");
+
+				var ptitre = document.createElement('p');
+				var pdesc = document.createElement('p');
+				var pdate = document.createElement('p');
+
+				var image = document.createElement('IMG');
+				image.setAttribute("src","http://image.tmdb.org/t/p/w92"+parsedData.results[i].poster_path)
+
+				var titre = document.createTextNode('Titre: '+parsedData.results[i].title);
+				var desc = document.createTextNode('Description: '+parsedData.results[i].overview);
+				var date = document.createTextNode('Date de sortie: '+parsedData.results[i].release_date);
+
+				ptitre.appendChild(titre);
+				pdesc.appendChild(desc);
+				pdate.appendChild(date);
+
+				divimage.appendChild(image);
+				divinfo.appendChild(ptitre);
+				divinfo.appendChild(pdesc);
+				divinfo.appendChild(pdate);
+				divparent.appendChild(divimage);
+				divparent.appendChild(divinfo);
+				divparent.appendChild(hr);
+
+				lien.appendChild(divparent);
+
+				t.appendChild(lien);
+			}
+		}
+	});
 }
 </script>
 

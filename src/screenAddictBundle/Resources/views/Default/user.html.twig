@@ -102,16 +102,14 @@
 
 		if(id_ami != id_user)
 		{
-	        var btn = document.createElement("input");
-			btn.setAttribute("type","submit");
-			btn.setAttribute("value","Ajouter ami");
+			var btn = document.createElement("a");
+			btn.setAttribute("href","{{path('ajoutAmi',{'id_ami': id_ami})}}");
+			btn.setAttribute("class","mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect");
 
-			var form = document.createElement("form");
-			form.setAttribute("id","buttonAjoutAmi");
-			form.setAttribute("action","{{path('ajoutAmi',{'id_ami': id_ami})}}");
+			var btntext = document.createTextNode("Ajouter ami");
 
-			form.appendChild(btn);
-	        divinfos.appendChild(form);
+			btn.appendChild(btntext);
+			divinfos.appendChild(btn);
 		}
 
         t.appendChild(divinfos);
